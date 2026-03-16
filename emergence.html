@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CurtainCon™ | ShowerMaster Consulting</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles-extra.css">
+  <style>
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes bubbleRise{0%{transform:translateY(100%) scale(0.5);opacity:0}50%{opacity:1}100%{transform:translateY(-100vh) scale(1);opacity:0}}
+    #scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--primary),var(--accent));z-index:10001;width:0;transition:width 50ms linear}
+    .hero-bubbles{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+    .bubble{position:absolute;bottom:-20px;border-radius:50%;background:rgba(255,255,255,0.15);animation:bubbleRise linear infinite}
+    .fade-in,.slide-up{opacity:0;transform:translateY(30px);transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1),transform 0.7s cubic-bezier(0.16,1,0.3,1)}
+    .fade-in.visible,.slide-up.visible{opacity:1;transform:translateY(0)}
+    .site-nav{position:sticky;top:0;z-index:1000;background:var(--bg-elevated);border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
+    .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:64px}
+    .nav-logo{font-family:var(--font-display);font-size:1.4rem;color:var(--primary);text-decoration:none;font-weight:700}
+    .nav-logo span{color:var(--accent)}
+    .nav-links{display:flex;gap:24px;align-items:center;list-style:none;margin:0;padding:0}
+    .nav-links a{color:var(--text-secondary);text-decoration:none;font-size:0.875rem;font-weight:500}
+    .nav-links a:hover{color:var(--primary)}
+    .nav-cta{background:var(--primary);color:#fff;padding:8px 20px;border-radius:8px;font-size:0.875rem;font-weight:600;text-decoration:none}
+    .dark-toggle{background:none;border:none;font-size:1.2rem;cursor:pointer;padding:4px 8px;border-radius:6px}
+    .nav-hamburger{display:none;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-primary)}
+    .hero{position:relative;background:var(--bg-hero);color:var(--text-on-dark);padding:100px 24px 80px;text-align:center;overflow:hidden}
+    .hero-content{position:relative;z-index:2;max-width:750px;margin:0 auto}
+    .hero h1{font-family:var(--font-display);font-size:clamp(2rem,4vw,3.2rem);margin:0 0 16px;line-height:1.15}
+    .hero h1 em{color:var(--accent);font-style:normal}
+    .hero p{font-size:1.05rem;color:rgba(240,246,249,0.75);margin:0;line-height:1.6}
+    section{padding:80px 24px}.section-inner{max-width:1000px;margin:0 auto}
+    .section-label{color:var(--primary);font-weight:700;font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+    .section-title{font-family:var(--font-display);font-size:clamp(1.8rem,3vw,2.4rem);color:var(--text-primary);margin:0 0 16px}
+    .section-subtitle{color:var(--text-secondary);font-size:1rem;max-width:640px;line-height:1.6;margin:0 0 40px}
+    .section-alt{background:var(--bg-sunken)}
+
+    /* Schedule */
+    .schedule-grid{display:grid;gap:16px}
+    .schedule-item{display:flex;align-items:center;gap:20px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:12px;padding:20px 24px;transition:all 0.2s}
+    .schedule-item:hover{border-color:var(--primary);transform:translateX(4px)}
+    .schedule-q{background:var(--primary);color:#fff;padding:6px 14px;border-radius:8px;font-weight:700;font-size:0.85rem;white-space:nowrap;flex-shrink:0}
+    .schedule-info h4{margin:0 0 2px;color:var(--text-primary);font-size:1rem}
+    .schedule-info p{margin:0;color:var(--text-secondary);font-size:0.9rem}
+
+    /* Pillars */
+    .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
+    .pillar{text-align:center;padding:32px 20px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:16px;transition:all 0.3s}
+    .pillar:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.06)}
+    .pillar-icon{font-size:2.4rem;margin-bottom:12px}
+    .pillar h3{font-family:var(--font-display);font-size:1.1rem;color:var(--text-primary);margin:0 0 8px}
+    .pillar p{color:var(--text-secondary);font-size:0.9rem;line-height:1.5;margin:0}
+
+    .highlight-box{background:var(--primary-light);border:1px solid var(--primary);border-radius:16px;padding:32px;margin-top:40px}
+    .highlight-box h3{font-family:var(--font-display);color:var(--primary);margin:0 0 12px}
+    .highlight-box p{color:var(--text-secondary);font-size:0.95rem;line-height:1.6;margin:0}
+    .highlight-box ul{color:var(--text-secondary);font-size:0.9rem;line-height:1.8;margin:12px 0 0;padding:0 0 0 20px}
+
+    .btn-primary{background:var(--primary);color:#fff;padding:14px 32px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;transition:all 0.25s}
+    .btn-primary:hover{background:var(--primary-hover);transform:translateY(-2px)}
+    .cta-section{text-align:center;padding:64px 24px}
+    .cta-section h2{font-family:var(--font-display);font-size:1.8rem;margin:0 0 12px;color:var(--text-primary)}
+    .cta-section p{color:var(--text-secondary);margin:0 0 24px}
+    .site-footer{background:var(--secondary);color:rgba(240,246,249,0.8);padding:64px 24px 32px}
+    .footer-inner{max-width:1200px;margin:0 auto}
+    .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:48px}
+    .footer-col h4{color:#fff;font-size:0.9rem;margin:0 0 16px;font-weight:700;text-transform:uppercase}
+    .footer-col a{color:rgba(240,246,249,0.65);text-decoration:none;font-size:0.9rem;display:block;padding:4px 0}
+    .footer-col a:hover{color:#fff}
+    .footer-col p{font-size:0.9rem;margin:0}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:24px;text-align:center;font-size:0.8rem;color:rgba(240,246,249,0.4)}
+    @media(max-width:768px){
+      .nav-links{display:none;position:absolute;top:64px;left:0;right:0;background:var(--bg-elevated);flex-direction:column;padding:20px;border-bottom:1px solid var(--border)}
+      .nav-links.open{display:flex}.nav-hamburger{display:block}
+      .pillars{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+<div id="scroll-progress"></div>
+<nav class="site-nav"><div class="nav-inner">
+  <a href="index.html" class="nav-logo">Shower<span>Master</span></a>
+  <button class="nav-hamburger" aria-label="Menu">☰</button>
+  <ul class="nav-links">
+    <li><a href="about.html">Team</a></li>
+    <li><a href="sales-lab.html">ShowerLAB™</a></li>
+    <li><a href="sales-accelerator.html">Accelerator</a></li>
+    <li><a href="emergence.html">CurtainCon™</a></li>
+    <li><a href="awards.html">Awards</a></li>
+    <li><button class="dark-toggle" aria-label="Toggle dark mode">🌙</button></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+</div></nav>
+
+<section class="hero hero-parallax">
+  <div class="hero-bubbles"></div>
+  <div class="hero-content">
+    <h1>Curtain<em>Con</em>™</h1>
+    <p>Where the shower curtain industry's brightest minds gather quarterly to share insight, build connections, and shape the future of the market.</p>
+  </div>
+</section>
+
+<section>
+  <div class="section-inner">
+    <p class="section-label fade-in">2026 Schedule</p>
+    <h2 class="section-title fade-in">7 Cities. 4 Quarters. Endless Insight.</h2>
+    <div class="schedule-grid">
+      <div class="schedule-item slide-up">
+        <span class="schedule-q">Q1</span>
+        <div class="schedule-info"><h4>Orlando, FL</h4><p>February 3–4, 2026</p></div>
+      </div>
+      <div class="schedule-item slide-up" style="transition-delay:0.05s">
+        <span class="schedule-q">Q1</span>
+        <div class="schedule-info"><h4>Tampa, FL</h4><p>February 24–25, 2026</p></div>
+      </div>
+      <div class="schedule-item slide-up" style="transition-delay:0.1s">
+        <span class="schedule-q">Q2</span>
+        <div class="schedule-info"><h4>Chicago, IL</h4><p>May 5–6, 2026</p></div>
+      </div>
+      <div class="schedule-item slide-up" style="transition-delay:0.15s">
+        <span class="schedule-q">Q2</span>
+        <div class="schedule-info"><h4>Denver, CO</h4><p>May 27–28, 2026</p></div>
+      </div>
+      <div class="schedule-item slide-up" style="transition-delay:0.2s">
+        <span class="schedule-q">Q3</span>
+        <div class="schedule-info"><h4>Charlotte, NC</h4><p>September 29–30, 2026</p></div>
+      </div>
+      <div class="schedule-item slide-up" style="transition-delay:0.25s">
+        <span class="schedule-q">Q4</span>
+        <div class="schedule-info"><h4>Los Angeles, CA</h4><p>October 13–14, 2026</p></div>
+      </div>
+      <div class="schedule-item slide-up" style="transition-delay:0.3s">
+        <span class="schedule-q">Q4</span>
+        <div class="schedule-info"><h4>Dallas, TX</h4><p>December 1–2, 2026</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-alt">
+  <div class="section-inner" style="text-align:center">
+    <p class="section-label fade-in">Three Pillars</p>
+    <h2 class="section-title fade-in">What Makes CurtainCon™ Different</h2>
+    <div class="pillars">
+      <div class="pillar slide-up">
+        <div class="pillar-icon">📰</div>
+        <h3>Fresh Insight</h3>
+        <p>Quarterly reports based on current insights from senior-level manufacturer interviews and retailer surveys. Data you can't find anywhere else.</p>
+      </div>
+      <div class="pillar slide-up" style="transition-delay:0.1s">
+        <div class="pillar-icon">👥</div>
+        <h3>Relevant Leaders</h3>
+        <p>115+ emerging and growth shower curtain brand leaders. The people actually driving change in the industry, not just the incumbents.</p>
+      </div>
+      <div class="pillar slide-up" style="transition-delay:0.2s">
+        <div class="pillar-icon">🔗</div>
+        <h3>Real Connections</h3>
+        <p>Live quarterly roundtables between manufacturers and retailers. Not a conference with 5,000 strangers — intimate sessions that lead to real partnerships.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-inner">
+    <p class="section-label fade-in">Membership</p>
+    <h2 class="section-title fade-in">How to Participate</h2>
+    <div class="highlight-box slide-up">
+      <h3>🏭 Manufacturers</h3>
+      <p>Annual membership includes 1 attendee at no charge to two roundtables per year. Additional attendees and events available at member rates.</p>
+      <ul>
+        <li>Quarterly insight reports delivered to your inbox</li>
+        <li>Priority networking with emerging retailers</li>
+        <li>Early access to trend data and market intelligence</li>
+        <li>Invitation to the annual Curtain Innovation Showcase</li>
+      </ul>
+    </div>
+    <div class="highlight-box slide-up" style="margin-top:20px">
+      <h3>🏬 Retailers & Designers</h3>
+      <p>Complimentary attendance. Yes, free. We believe the best connections happen when everyone's at the table.</p>
+      <ul>
+        <li>Meet innovative manufacturers and new brands</li>
+        <li>Preview upcoming collections and materials</li>
+        <li>Share your challenges directly with suppliers</li>
+        <li>Get quarterly market reports at no cost</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2 class="fade-in">Join the Conversation</h2>
+  <p class="fade-in">CurtainCon™ 2026 sessions are filling fast. Reserve your spot today.</p>
+  <a href="contact.html" class="btn-primary fade-in">Register Now</a>
+</section>
+
+<footer class="site-footer"><div class="footer-inner">
+  <div class="footer-grid">
+    <div class="footer-col"><h4>ShowerMaster</h4><p>Strategy set in motion since 2009.</p></div>
+    <div class="footer-col"><h4>Services</h4><a href="sales-lab.html">ShowerLAB™</a><a href="sales-accelerator.html">Curtain Accelerator™</a><a href="emergence.html">CurtainCon™</a></div>
+    <div class="footer-col"><h4>Company</h4><a href="about.html">Our Team</a><a href="awards.html">Awards</a><a href="contact.html">Contact</a></div>
+    <div class="footer-col"><h4>Connect</h4><p>📧 hello@showermaster.com</p><p>📞 (312) 555-DRIP</p></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 ShowerMaster Consulting. All rights reserved.</p></div>
+</div></footer>
+<script src="scripts.js"></script>
+</body>
+</html>

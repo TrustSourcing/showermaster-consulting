@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Awards & News | ShowerMaster Consulting</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles-extra.css">
+  <style>
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes bubbleRise{0%{transform:translateY(100%) scale(0.5);opacity:0}50%{opacity:1}100%{transform:translateY(-100vh) scale(1);opacity:0}}
+    #scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--primary),var(--accent));z-index:10001;width:0;transition:width 50ms linear}
+    .hero-bubbles{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+    .bubble{position:absolute;bottom:-20px;border-radius:50%;background:rgba(255,255,255,0.15);animation:bubbleRise linear infinite}
+    .fade-in,.slide-up{opacity:0;transform:translateY(30px);transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1),transform 0.7s cubic-bezier(0.16,1,0.3,1)}
+    .fade-in.visible,.slide-up.visible{opacity:1;transform:translateY(0)}
+    .site-nav{position:sticky;top:0;z-index:1000;background:var(--bg-elevated);border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
+    .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:64px}
+    .nav-logo{font-family:var(--font-display);font-size:1.4rem;color:var(--primary);text-decoration:none;font-weight:700}
+    .nav-logo span{color:var(--accent)}
+    .nav-links{display:flex;gap:24px;align-items:center;list-style:none;margin:0;padding:0}
+    .nav-links a{color:var(--text-secondary);text-decoration:none;font-size:0.875rem;font-weight:500}
+    .nav-links a:hover{color:var(--primary)}
+    .nav-cta{background:var(--primary);color:#fff;padding:8px 20px;border-radius:8px;font-size:0.875rem;font-weight:600;text-decoration:none}
+    .dark-toggle{background:none;border:none;font-size:1.2rem;cursor:pointer;padding:4px 8px;border-radius:6px}
+    .nav-hamburger{display:none;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-primary)}
+    .hero{position:relative;background:var(--bg-hero);color:var(--text-on-dark);padding:100px 24px 80px;text-align:center;overflow:hidden}
+    .hero-content{position:relative;z-index:2;max-width:750px;margin:0 auto}
+    .hero h1{font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);margin:0 0 16px;line-height:1.15}
+    .hero h1 em{color:var(--accent);font-style:normal}
+    .hero p{font-size:1.05rem;color:rgba(240,246,249,0.75);margin:0;line-height:1.6}
+    section{padding:80px 24px}.section-inner{max-width:800px;margin:0 auto}
+    .section-label{color:var(--primary);font-weight:700;font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+    .section-title{font-family:var(--font-display);font-size:clamp(1.8rem,3vw,2.4rem);color:var(--text-primary);margin:0 0 24px}
+    .section-alt{background:var(--bg-sunken)}
+
+    .article{line-height:1.8;color:var(--text-secondary);font-size:1rem}
+    .article p{margin:0 0 20px}
+    .article-meta{color:var(--text-muted);font-size:0.85rem;margin-bottom:32px}
+    .article-badge{display:inline-block;background:var(--accent-light);color:var(--accent);padding:8px 16px;border-radius:10px;font-weight:700;font-size:0.9rem;margin-bottom:24px}
+
+    .quote-block{background:var(--bg-sunken);border-left:4px solid var(--primary);border-radius:0 12px 12px 0;padding:24px 28px;margin:32px 0}
+    .quote-block blockquote{font-family:var(--font-display);font-size:1.15rem;color:var(--text-primary);margin:0 0 12px;font-style:italic;line-height:1.5}
+    .quote-block cite{color:var(--text-muted);font-size:0.9rem;font-style:normal}
+
+    .btn-primary{background:var(--primary);color:#fff;padding:14px 32px;border-radius:10px;font-weight:600;text-decoration:none;display:inline-block;transition:all 0.25s}
+    .btn-primary:hover{background:var(--primary-hover);transform:translateY(-2px)}
+    .cta-section{text-align:center;padding:64px 24px}
+    .cta-section h2{font-family:var(--font-display);font-size:1.8rem;margin:0 0 12px;color:var(--text-primary)}
+    .cta-section p{color:var(--text-secondary);margin:0 0 24px}
+    .site-footer{background:var(--secondary);color:rgba(240,246,249,0.8);padding:64px 24px 32px}
+    .footer-inner{max-width:1200px;margin:0 auto}
+    .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:48px}
+    .footer-col h4{color:#fff;font-size:0.9rem;margin:0 0 16px;font-weight:700;text-transform:uppercase}
+    .footer-col a{color:rgba(240,246,249,0.65);text-decoration:none;font-size:0.9rem;display:block;padding:4px 0}
+    .footer-col a:hover{color:#fff}
+    .footer-col p{font-size:0.9rem;margin:0}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:24px;text-align:center;font-size:0.8rem;color:rgba(240,246,249,0.4)}
+    @media(max-width:768px){
+      .nav-links{display:none;position:absolute;top:64px;left:0;right:0;background:var(--bg-elevated);flex-direction:column;padding:20px;border-bottom:1px solid var(--border)}
+      .nav-links.open{display:flex}.nav-hamburger{display:block}
+    }
+  </style>
+</head>
+<body>
+<div id="scroll-progress"></div>
+<nav class="site-nav"><div class="nav-inner">
+  <a href="index.html" class="nav-logo">Shower<span>Master</span></a>
+  <button class="nav-hamburger" aria-label="Menu">☰</button>
+  <ul class="nav-links">
+    <li><a href="about.html">Team</a></li>
+    <li><a href="sales-lab.html">ShowerLAB™</a></li>
+    <li><a href="sales-accelerator.html">Accelerator</a></li>
+    <li><a href="emergence.html">CurtainCon™</a></li>
+    <li><a href="awards.html">Awards</a></li>
+    <li><button class="dark-toggle" aria-label="Toggle dark mode">🌙</button></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+</div></nav>
+
+<section class="hero hero-parallax">
+  <div class="hero-bubbles"></div>
+  <div class="hero-content">
+    <h1>Awards & <em>News</em></h1>
+    <p>Recognition, thought leadership, and the occasional humble brag.</p>
+  </div>
+</section>
+
+<section>
+  <div class="section-inner">
+    <span class="article-badge fade-in">🏆 Award</span>
+    <h2 class="section-title fade-in">ShowerMaster Named Top Shower Curtain Management Consulting Firm 2025</h2>
+    <p class="article-meta fade-in">Pearl Steamsworth · August 19, 2025</p>
+    <div class="article fade-in">
+      <p>We're honored to be recognized by <strong>Bathroom Business Review</strong> as the Top Shower Curtain Management Consulting Firm for 2025. It's a proud moment — but more importantly, it's a reflection of the measurable impact we strive to create for every client we serve.</p>
+      <p>This recognition speaks to the growing need for strategic partners who understand the complexity of the shower curtain market — and can help companies turn that complexity into competitive advantage. The industry is no longer "just curtains." It's a sophisticated intersection of textile science, design trends, sustainability mandates, e-commerce logistics, and consumer psychology.</p>
+
+      <div class="quote-block slide-up">
+        <blockquote>"This award belongs to our clients. They trusted us with their toughest challenges — and together, we turned them into growth stories. The shower curtain industry deserves world-class consulting, and we're committed to delivering exactly that."</blockquote>
+        <cite>— Clarissa Von Drape, Chief Curtain Officer & Founder</cite>
+      </div>
+
+      <p>Since our founding in 2009, ShowerMaster has helped 500+ brands find clarity, accelerate execution, and build strategies that drive measurable growth across the entire curtain value chain. From material sourcing strategy to retail shelf optimization, our team brings deep industry expertise and a relentless focus on results.</p>
+
+      <div class="quote-block slide-up">
+        <blockquote>"When we started ShowerMaster, people thought we were joking. 'A consulting firm for shower curtains?' Now those same people call us when their curtain division underperforms. The market validated what we always knew — this industry is complex, it's massive, and it deserves serious strategic attention."</blockquote>
+        <cite>— Dr. Splash Wellington, Head of Waterproof Strategy</cite>
+      </div>
+
+      <p>If you're ready to think differently, move faster, and win smarter in the shower curtain market — let's talk. We don't just consult. We partner. We push. We deliver.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2 class="fade-in">Ready to Make Waves?</h2>
+  <p class="fade-in">Explore how ShowerMaster can help you unlock momentum and turn complexity into opportunity.</p>
+  <a href="contact.html" class="btn-primary fade-in">Schedule a Call</a>
+</section>
+
+<footer class="site-footer"><div class="footer-inner">
+  <div class="footer-grid">
+    <div class="footer-col"><h4>ShowerMaster</h4><p>Strategy set in motion since 2009.</p></div>
+    <div class="footer-col"><h4>Services</h4><a href="sales-lab.html">ShowerLAB™</a><a href="sales-accelerator.html">Curtain Accelerator™</a><a href="emergence.html">CurtainCon™</a></div>
+    <div class="footer-col"><h4>Company</h4><a href="about.html">Our Team</a><a href="awards.html">Awards</a><a href="contact.html">Contact</a></div>
+    <div class="footer-col"><h4>Connect</h4><p>📧 hello@showermaster.com</p><p>📞 (312) 555-DRIP</p></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 ShowerMaster Consulting. All rights reserved.</p></div>
+</div></footer>
+<script src="scripts.js"></script>
+</body>
+</html>

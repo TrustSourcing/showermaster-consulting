@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Team | ShowerMaster Consulting</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles-extra.css">
+  <style>
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    @keyframes bubbleRise { 0%{transform:translateY(100%) scale(0.5);opacity:0} 50%{opacity:1} 100%{transform:translateY(-100vh) scale(1);opacity:0} }
+    #scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--primary),var(--accent));z-index:10001;width:0;transition:width 50ms linear}
+    .hero-bubbles{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+    .bubble{position:absolute;bottom:-20px;border-radius:50%;background:rgba(255,255,255,0.15);animation:bubbleRise linear infinite}
+    .fade-in,.slide-up{opacity:0;transform:translateY(30px);transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1),transform 0.7s cubic-bezier(0.16,1,0.3,1)}
+    .fade-in.visible,.slide-up.visible{opacity:1;transform:translateY(0)}
+    .site-nav{position:sticky;top:0;z-index:1000;background:var(--bg-elevated);border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
+    .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:64px}
+    .nav-logo{font-family:var(--font-display);font-size:1.4rem;color:var(--primary);text-decoration:none;font-weight:700}
+    .nav-logo span{color:var(--accent)}
+    .nav-links{display:flex;gap:24px;align-items:center;list-style:none;margin:0;padding:0}
+    .nav-links a{color:var(--text-secondary);text-decoration:none;font-size:0.875rem;font-weight:500;transition:color 0.2s}
+    .nav-links a:hover{color:var(--primary)}
+    .nav-cta{background:var(--primary);color:#fff;padding:8px 20px;border-radius:8px;font-size:0.875rem;font-weight:600;text-decoration:none;transition:background 0.2s}
+    .nav-cta:hover{background:var(--primary-hover)}
+    .dark-toggle{background:none;border:none;font-size:1.2rem;cursor:pointer;padding:4px 8px;border-radius:6px}
+    .nav-hamburger{display:none;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-primary)}
+    .hero{position:relative;background:var(--bg-hero);color:var(--text-on-dark);padding:100px 24px 80px;text-align:center;overflow:hidden}
+    .hero-content{position:relative;z-index:2;max-width:700px;margin:0 auto}
+    .hero h1{font-family:var(--font-display);font-size:clamp(2rem,4vw,3.2rem);margin:0 0 16px;line-height:1.15}
+    .hero h1 em{color:var(--accent);font-style:normal}
+    .hero p{font-size:1.05rem;color:rgba(240,246,249,0.75);margin:0;line-height:1.6}
+    section{padding:80px 24px}
+    .section-inner{max-width:1200px;margin:0 auto}
+    .section-label{color:var(--primary);font-weight:700;font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+    .section-title{font-family:var(--font-display);font-size:clamp(1.8rem,3.5vw,2.8rem);color:var(--text-primary);margin:0 0 48px;line-height:1.15}
+
+    /* Team Grid */
+    .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px}
+    .team-card{perspective:800px;height:420px;cursor:pointer}
+    .team-card-inner{position:relative;width:100%;height:100%;transition:transform 0.7s cubic-bezier(0.16,1,0.3,1);transform-style:preserve-3d}
+    .team-card:hover .team-card-inner,.team-card.flipped .team-card-inner{transform:rotateY(180deg)}
+    .team-front,.team-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;border:1px solid var(--border);overflow:hidden}
+    .team-front{background:var(--bg-elevated);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center}
+    .team-back{background:var(--bg-elevated);transform:rotateY(180deg);padding:32px;display:flex;flex-direction:column;justify-content:center}
+
+    /* CSS Avatars */
+    .avatar{width:120px;height:120px;border-radius:50%;position:relative;margin-bottom:20px;overflow:hidden}
+    .avatar-body{position:absolute;bottom:0;width:100%;height:45%;border-radius:0 0 60px 60px}
+    .avatar-face{position:absolute;width:80px;height:80px;border-radius:50%;top:10px;left:50%;transform:translateX(-50%)}
+    .avatar-eyes{position:absolute;top:38px;left:50%;transform:translateX(-50%);display:flex;gap:16px}
+    .avatar-eyes::before,.avatar-eyes::after{content:'';width:8px;height:10px;background:#1a1a1a;border-radius:50%}
+    .avatar-mouth{position:absolute;top:56px;left:50%;transform:translateX(-50%);width:16px;height:8px;border-bottom:3px solid #c0392b;border-radius:0 0 50% 50%}
+    .avatar-accessory{position:absolute;font-size:1.8rem;z-index:5}
+    .avatar-hair{position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:3}
+
+    /* Individual avatar colors */
+    .av-clarissa .avatar-face{background:#f5d0a9}
+    .av-clarissa .avatar-body{background:#0E7C86}
+    .av-clarissa .avatar-hair{width:90px;height:40px;background:#c0392b;border-radius:50% 50% 0 0;top:-5px}
+    .av-clarissa .avatar-accessory{top:-12px;right:5px}
+
+    .av-mauricio .avatar-face{background:#8d6e4c}
+    .av-mauricio .avatar-body{background:#2c3e50}
+    .av-mauricio .avatar-hair{width:70px;height:20px;background:#1a1a1a;border-radius:10px 10px 0 0;top:2px}
+    .av-mauricio .avatar-accessory{top:24px;left:8px;font-size:1.2rem}
+
+    .av-splash .avatar-face{background:#e8beac}
+    .av-splash .avatar-body{background:#8e44ad}
+    .av-splash .avatar-hair{width:85px;height:30px;background:#f1c40f;border-radius:50%;top:-2px}
+    .av-splash .avatar-accessory{top:-18px;left:50%;transform:translateX(-50%)}
+
+    .av-luna .avatar-face{background:#f9d5a7}
+    .av-luna .avatar-body{background:#c0392b}
+    .av-luna .avatar-hair{width:95px;height:45px;background:#2c3e50;border-radius:50%;top:-8px}
+    .av-luna .avatar-accessory{bottom:25px;right:-5px}
+
+    .av-bucky .avatar-face{background:#dbb896}
+    .av-bucky .avatar-body{background:#27ae60}
+    .av-bucky .avatar-hair{width:60px;height:15px;background:#e67e22;border-radius:5px;top:5px}
+    .av-bucky .avatar-accessory{top:-8px;left:8px}
+
+    .av-pearl .avatar-face{background:#a0785a}
+    .av-pearl .avatar-body{background:#C87941}
+    .av-pearl .avatar-hair{width:100px;height:50px;background:#1a1a1a;border-radius:50%;top:-10px}
+    .av-pearl .avatar-accessory{top:-5px;right:0}
+
+    .team-name{font-family:var(--font-display);font-size:1.2rem;color:var(--text-primary);margin:0 0 4px}
+    .team-title{color:var(--primary);font-weight:600;font-size:0.85rem;margin:0 0 8px}
+    .team-tagline{color:var(--text-muted);font-size:0.85rem;font-style:italic;margin:0}
+    .team-back h4{font-family:var(--font-display);color:var(--text-primary);margin:0 0 12px;font-size:1.1rem}
+    .team-back p{color:var(--text-secondary);font-size:0.9rem;line-height:1.6;margin:0 0 12px}
+    .team-back .fun-fact{background:var(--bg-sunken);padding:12px;border-radius:8px;font-size:0.85rem;color:var(--text-secondary)}
+    .team-back .fun-fact strong{color:var(--accent)}
+
+    .site-footer{background:var(--secondary);color:rgba(240,246,249,0.8);padding:64px 24px 32px}
+    .footer-inner{max-width:1200px;margin:0 auto}
+    .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:48px}
+    .footer-col h4{color:#fff;font-size:0.9rem;margin:0 0 16px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase}
+    .footer-col a{color:rgba(240,246,249,0.65);text-decoration:none;font-size:0.9rem;display:block;padding:4px 0;transition:color 0.2s}
+    .footer-col a:hover{color:#fff}
+    .footer-col p{font-size:0.9rem;line-height:1.6;margin:0}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:24px;text-align:center;font-size:0.8rem;color:rgba(240,246,249,0.4)}
+
+    @media(max-width:768px){
+      .nav-links{display:none;position:absolute;top:64px;left:0;right:0;background:var(--bg-elevated);flex-direction:column;padding:20px;border-bottom:1px solid var(--border)}
+      .nav-links.open{display:flex}
+      .nav-hamburger{display:block}
+      .team-card{height:380px}
+    }
+  </style>
+</head>
+<body>
+<div id="scroll-progress"></div>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Shower<span>Master</span></a>
+    <button class="nav-hamburger" aria-label="Menu">☰</button>
+    <ul class="nav-links">
+      <li><a href="about.html">Team</a></li>
+      <li><a href="sales-lab.html">ShowerLAB™</a></li>
+      <li><a href="sales-accelerator.html">Accelerator</a></li>
+      <li><a href="emergence.html">CurtainCon™</a></li>
+      <li><a href="awards.html">Awards</a></li>
+      <li><button class="dark-toggle" aria-label="Toggle dark mode">🌙</button></li>
+      <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero hero-parallax">
+  <div class="hero-bubbles"></div>
+  <div class="hero-content">
+    <h1>Meet the Team<br>Behind the <em>Curtain</em></h1>
+    <p>Turning Drip into Drive since 2009. Our leadership team brings 120+ years of combined shower curtain industry experience.</p>
+  </div>
+</section>
+
+<section>
+  <div class="section-inner">
+    <p class="section-label fade-in" style="text-align:center">Leadership</p>
+    <h2 class="section-title fade-in" style="text-align:center">Hover to learn more about each team member</h2>
+    <div class="team-grid">
+
+      <!-- Clarissa -->
+      <div class="team-card slide-up">
+        <div class="team-card-inner">
+          <div class="team-front">
+            <div class="avatar av-clarissa">
+              <div class="avatar-face">
+                <div class="avatar-eyes"></div>
+                <div class="avatar-mouth"></div>
+              </div>
+              <div class="avatar-hair"></div>
+              <div class="avatar-body"></div>
+              <span class="avatar-accessory">🧴</span>
+            </div>
+            <h3 class="team-name">Clarissa Von Drape</h3>
+            <p class="team-title">Chief Curtain Officer</p>
+            <p class="team-tagline">"Every bathroom tells a story."</p>
+          </div>
+          <div class="team-back">
+            <h4>Clarissa Von Drape</h4>
+            <p>Former McKinsey partner who had an epiphany at a luxury hotel in Milan: the shower curtain was the most neglected touchpoint in the entire guest experience. Left consulting to found ShowerMaster in 2009.</p>
+            <div class="fun-fact"><strong>Fun fact:</strong> Owns 347 shower curtains. Has never used the same one twice on vacation.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mauricio -->
+      <div class="team-card slide-up" style="transition-delay:0.1s">
+        <div class="team-card-inner">
+          <div class="team-front">
+            <div class="avatar av-mauricio">
+              <div class="avatar-face">
+                <div class="avatar-eyes"></div>
+                <div class="avatar-mouth"></div>
+              </div>
+              <div class="avatar-hair"></div>
+              <div class="avatar-body"></div>
+              <span class="avatar-accessory">🧐</span>
+            </div>
+            <h3 class="team-name">Mauricio Tieback III</h3>
+            <p class="team-title">VP of Ring Innovation</p>
+            <p class="team-tagline">"The ring is where trust begins."</p>
+          </div>
+          <div class="team-back">
+            <h4>Mauricio Tieback III</h4>
+            <p>Third-generation curtain ring manufacturer turned strategist. Holds 12 patents in low-friction ring technology. Joined ShowerMaster after selling TieBack Industries to a private equity firm for an undisclosed but impressive amount.</p>
+            <div class="fun-fact"><strong>Fun fact:</strong> Can identify any curtain ring manufacturer by sound alone.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dr. Splash -->
+      <div class="team-card slide-up" style="transition-delay:0.2s">
+        <div class="team-card-inner">
+          <div class="team-front">
+            <div class="avatar av-splash">
+              <div class="avatar-face">
+                <div class="avatar-eyes"></div>
+                <div class="avatar-mouth"></div>
+              </div>
+              <div class="avatar-hair"></div>
+              <div class="avatar-body"></div>
+              <span class="avatar-accessory">🎓</span>
+            </div>
+            <h3 class="team-name">Dr. Splash Wellington</h3>
+            <p class="team-title">Head of Waterproof Strategy</p>
+            <p class="team-tagline">"Dry is a state of mind."</p>
+          </div>
+          <div class="team-back">
+            <h4>Dr. Splash Wellington</h4>
+            <p>PhD in Polymer Science from MIT. Spent 15 years at DuPont developing hydrophobic coatings before realizing the shower curtain industry was criminally underserved by materials science. Now leads ShowerMaster's R&D advisory practice.</p>
+            <div class="fun-fact"><strong>Fun fact:</strong> His PhD thesis was titled "Molecular Dynamics of Water Repulsion in Textile Substrates" — 400 pages about keeping things dry.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Luna -->
+      <div class="team-card slide-up" style="transition-delay:0.3s">
+        <div class="team-card-inner">
+          <div class="team-front">
+            <div class="avatar av-luna">
+              <div class="avatar-face">
+                <div class="avatar-eyes"></div>
+                <div class="avatar-mouth"></div>
+              </div>
+              <div class="avatar-hair"></div>
+              <div class="avatar-body"></div>
+              <span class="avatar-accessory">📊</span>
+            </div>
+            <h3 class="team-name">Luna Rinseworth</h3>
+            <p class="team-title">Director of Textile Intelligence</p>
+            <p class="team-tagline">"Data doesn't lie. Curtains don't either."</p>
+          </div>
+          <div class="team-back">
+            <h4>Luna Rinseworth</h4>
+            <p>Former head of analytics at Bed Bath & Beyond (the good years). Built the ShowerLAB™ benchmarking platform from scratch. Tracks 20+ metrics across 500+ brands and can tell you your competitor's thread count from their earnings report.</p>
+            <div class="fun-fact"><strong>Fun fact:</strong> Has a spreadsheet tracking every shower she's taken since 2012. Average duration: 7.3 minutes.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bucky -->
+      <div class="team-card slide-up" style="transition-delay:0.4s">
+        <div class="team-card-inner">
+          <div class="team-front">
+            <div class="avatar av-bucky">
+              <div class="avatar-face">
+                <div class="avatar-eyes"></div>
+                <div class="avatar-mouth"></div>
+              </div>
+              <div class="avatar-hair"></div>
+              <div class="avatar-body"></div>
+              <span class="avatar-accessory">🦆</span>
+            </div>
+            <h3 class="team-name">Bucky Hookman</h3>
+            <p class="team-title">Senior Curtain Analyst</p>
+            <p class="team-tagline">"The numbers hang like a good curtain — straight."</p>
+          </div>
+          <div class="team-back">
+            <h4>Bucky Hookman</h4>
+            <p>Goldman Sachs → shower curtains. Sounds like a downgrade. It wasn't. Bucky covers industry M&A, market sizing, and competitive intelligence. His annual "State of the Curtain" report is the most-downloaded PDF in bathroom fixtures history.</p>
+            <div class="fun-fact"><strong>Fun fact:</strong> Named after his grandfather's rubber duck. Still has it. Brings it to every board meeting.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pearl -->
+      <div class="team-card slide-up" style="transition-delay:0.5s">
+        <div class="team-card-inner">
+          <div class="team-front">
+            <div class="avatar av-pearl">
+              <div class="avatar-face">
+                <div class="avatar-eyes"></div>
+                <div class="avatar-mouth"></div>
+              </div>
+              <div class="avatar-hair"></div>
+              <div class="avatar-body"></div>
+              <span class="avatar-accessory">✨</span>
+            </div>
+            <h3 class="team-name">Pearl Steamsworth</h3>
+            <p class="team-title">Creative Director of Drip</p>
+            <p class="team-tagline">"Design is how it makes you feel at 6 AM."</p>
+          </div>
+          <div class="team-back">
+            <h4>Pearl Steamsworth</h4>
+            <p>Award-winning industrial designer who worked with IKEA, CB2, and West Elm before specializing in bathroom textiles. Leads ShowerMaster's design consulting practice and CurtainCon's annual "Curtain of the Year" award jury.</p>
+            <div class="fun-fact"><strong>Fun fact:</strong> Designed a shower curtain for the Louvre's executive bathroom. It's behind a door marked "Privé."</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>ShowerMaster</h4>
+        <p>The shower curtain industry's premier management consulting firm. Strategy set in motion since 2009.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <a href="sales-lab.html">ShowerLAB™</a>
+        <a href="sales-accelerator.html">Curtain Accelerator™</a>
+        <a href="emergence.html">CurtainCon™</a>
+        <a href="collaborative-innovation.html">Collaboration Forums</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="about.html">Our Team</a>
+        <a href="awards.html">Awards & News</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <p>📧 hello@showermaster.com</p>
+        <p>📞 (312) 555-DRIP</p>
+        <p>📍 Chicago, IL</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 ShowerMaster Consulting. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+<script src="scripts.js"></script>
+</body>
+</html>

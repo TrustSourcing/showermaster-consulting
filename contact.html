@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | ShowerMaster Consulting</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles-extra.css">
+  <style>
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes bubbleRise{0%{transform:translateY(100%) scale(0.5);opacity:0}50%{opacity:1}100%{transform:translateY(-100vh) scale(1);opacity:0}}
+    #scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--primary),var(--accent));z-index:10001;width:0;transition:width 50ms linear}
+    .hero-bubbles{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+    .bubble{position:absolute;bottom:-20px;border-radius:50%;background:rgba(255,255,255,0.15);animation:bubbleRise linear infinite}
+    .fade-in,.slide-up{opacity:0;transform:translateY(30px);transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1),transform 0.7s cubic-bezier(0.16,1,0.3,1)}
+    .fade-in.visible,.slide-up.visible{opacity:1;transform:translateY(0)}
+    .site-nav{position:sticky;top:0;z-index:1000;background:var(--bg-elevated);border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
+    .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:64px}
+    .nav-logo{font-family:var(--font-display);font-size:1.4rem;color:var(--primary);text-decoration:none;font-weight:700}
+    .nav-logo span{color:var(--accent)}
+    .nav-links{display:flex;gap:24px;align-items:center;list-style:none;margin:0;padding:0}
+    .nav-links a{color:var(--text-secondary);text-decoration:none;font-size:0.875rem;font-weight:500}
+    .nav-links a:hover{color:var(--primary)}
+    .nav-cta{background:var(--primary);color:#fff;padding:8px 20px;border-radius:8px;font-size:0.875rem;font-weight:600;text-decoration:none}
+    .dark-toggle{background:none;border:none;font-size:1.2rem;cursor:pointer;padding:4px 8px;border-radius:6px}
+    .nav-hamburger{display:none;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-primary)}
+    .hero{position:relative;background:var(--bg-hero);color:var(--text-on-dark);padding:100px 24px 80px;text-align:center;overflow:hidden}
+    .hero-content{position:relative;z-index:2;max-width:700px;margin:0 auto}
+    .hero h1{font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);margin:0 0 16px;line-height:1.15}
+    .hero h1 em{color:var(--accent);font-style:normal}
+    .hero p{font-size:1.05rem;color:rgba(240,246,249,0.75);margin:0;line-height:1.6}
+    section{padding:80px 24px}.section-inner{max-width:1000px;margin:0 auto}
+
+    /* Contact Layout */
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+    .contact-form{display:flex;flex-direction:column;gap:20px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .form-group{display:flex;flex-direction:column;gap:6px}
+    .form-group label{font-weight:600;font-size:0.85rem;color:var(--text-primary)}
+    .form-group input,.form-group select,.form-group textarea{padding:12px 16px;border:1px solid var(--border);border-radius:10px;font-size:0.95rem;background:var(--bg-primary);color:var(--text-primary);transition:border-color 0.2s;font-family:inherit}
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-light)}
+    .form-group textarea{min-height:120px;resize:vertical}
+    .form-submit{background:var(--primary);color:#fff;padding:14px 32px;border:none;border-radius:10px;font-weight:600;font-size:1rem;cursor:pointer;transition:all 0.25s}
+    .form-submit:hover{background:var(--primary-hover);transform:translateY(-2px);box-shadow:0 8px 24px rgba(14,124,134,0.3)}
+    .form-success{background:var(--success);color:#fff;padding:12px 20px;border-radius:10px;text-align:center;font-weight:600;opacity:0;transform:translateY(-10px);transition:all 0.3s;margin-top:-8px}
+    .form-success.visible{opacity:1;transform:translateY(0)}
+
+    .contact-info{display:flex;flex-direction:column;gap:32px}
+    .contact-info-card{background:var(--bg-elevated);border:1px solid var(--border);border-radius:16px;padding:28px}
+    .contact-info-card h3{font-family:var(--font-display);font-size:1.15rem;color:var(--text-primary);margin:0 0 16px}
+    .contact-detail{display:flex;align-items:center;gap:12px;padding:8px 0;color:var(--text-secondary);font-size:0.95rem}
+    .contact-detail .icon{font-size:1.3rem;flex-shrink:0}
+    .map-placeholder{background:var(--bg-sunken);border:1px solid var(--border);border-radius:16px;height:200px;display:flex;align-items:center;justify-content:center;font-size:3rem}
+
+    .site-footer{background:var(--secondary);color:rgba(240,246,249,0.8);padding:64px 24px 32px}
+    .footer-inner{max-width:1200px;margin:0 auto}
+    .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:48px}
+    .footer-col h4{color:#fff;font-size:0.9rem;margin:0 0 16px;font-weight:700;text-transform:uppercase}
+    .footer-col a{color:rgba(240,246,249,0.65);text-decoration:none;font-size:0.9rem;display:block;padding:4px 0}
+    .footer-col a:hover{color:#fff}
+    .footer-col p{font-size:0.9rem;margin:0}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:24px;text-align:center;font-size:0.8rem;color:rgba(240,246,249,0.4)}
+    @media(max-width:768px){
+      .nav-links{display:none;position:absolute;top:64px;left:0;right:0;background:var(--bg-elevated);flex-direction:column;padding:20px;border-bottom:1px solid var(--border)}
+      .nav-links.open{display:flex}.nav-hamburger{display:block}
+      .contact-grid{grid-template-columns:1fr}
+      .form-row{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+<div id="scroll-progress"></div>
+<nav class="site-nav"><div class="nav-inner">
+  <a href="index.html" class="nav-logo">Shower<span>Master</span></a>
+  <button class="nav-hamburger" aria-label="Menu">☰</button>
+  <ul class="nav-links">
+    <li><a href="about.html">Team</a></li>
+    <li><a href="sales-lab.html">ShowerLAB™</a></li>
+    <li><a href="sales-accelerator.html">Accelerator</a></li>
+    <li><a href="emergence.html">CurtainCon™</a></li>
+    <li><a href="awards.html">Awards</a></li>
+    <li><button class="dark-toggle" aria-label="Toggle dark mode">🌙</button></li>
+    <li><a href="contact.html" class="nav-cta">Contact Us</a></li>
+  </ul>
+</div></nav>
+
+<section class="hero hero-parallax">
+  <div class="hero-bubbles"></div>
+  <div class="hero-content">
+    <h1>Let's Make <em>Waves</em> Together</h1>
+    <p>Whether you need strategy, benchmarking, or just want to talk shower curtains — we're here.</p>
+  </div>
+</section>
+
+<section>
+  <div class="section-inner">
+    <div class="contact-grid">
+      <form class="contact-form fade-in" onsubmit="return false">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="Clarissa" required>
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" placeholder="Von Drape">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="you@company.com" required>
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" placeholder="(555) 123-4567">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Company</label>
+            <input type="text" placeholder="AquaLux Textiles">
+          </div>
+          <div class="form-group">
+            <label>Job Title</label>
+            <input type="text" placeholder="VP Sales">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Service Interest</label>
+          <select>
+            <option value="">Select a service...</option>
+            <option>Strategic Consulting</option>
+            <option>ShowerLAB™ Benchmarking</option>
+            <option>Curtain Accelerator™</option>
+            <option>CurtainCon™ Forums</option>
+            <option>Collaborative Innovation</option>
+            <option>Design & Marketing</option>
+            <option>Other / General Inquiry</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="Tell us about your shower curtain challenges, goals, or just say hello..."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Message</button>
+        <div class="form-success">✅ Message sent! Our team will reach out within 24 hours.</div>
+      </form>
+
+      <div class="contact-info slide-up">
+        <div class="contact-info-card">
+          <h3>Get in Touch</h3>
+          <div class="contact-detail"><span class="icon">📧</span> hello@showermaster.com</div>
+          <div class="contact-detail"><span class="icon">📞</span> (312) 555-DRIP</div>
+          <div class="contact-detail"><span class="icon">⏰</span> Mon–Fri, 8 AM – 6 PM CT</div>
+        </div>
+        <div class="contact-info-card">
+          <h3>Headquarters</h3>
+          <div class="contact-detail"><span class="icon">📍</span> 233 S. Wacker Drive, Suite 4200<br>Chicago, IL 60606</div>
+          <div class="contact-detail"><span class="icon">🏢</span> Willis Tower (yes, the big one)</div>
+        </div>
+        <div class="map-placeholder">🗺️</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer"><div class="footer-inner">
+  <div class="footer-grid">
+    <div class="footer-col"><h4>ShowerMaster</h4><p>Strategy set in motion since 2009.</p></div>
+    <div class="footer-col"><h4>Services</h4><a href="sales-lab.html">ShowerLAB™</a><a href="sales-accelerator.html">Curtain Accelerator™</a><a href="emergence.html">CurtainCon™</a></div>
+    <div class="footer-col"><h4>Company</h4><a href="about.html">Our Team</a><a href="awards.html">Awards</a><a href="contact.html">Contact</a></div>
+    <div class="footer-col"><h4>Connect</h4><p>📧 hello@showermaster.com</p><p>📞 (312) 555-DRIP</p></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 ShowerMaster Consulting. All rights reserved.</p></div>
+</div></footer>
+<script src="scripts.js"></script>
+</body>
+</html>

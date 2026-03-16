@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShowerMaster Consulting — Where Strategy Meets the Splash Zone</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg-primary:#FAFBFC;
+  --bg-hero:#0B1D26;
+  --bg-elevated:#FFFFFF;
+  --bg-sunken:#F0F3F5;
+  --text-primary:#1A2B35;
+  --text-secondary:#5A7080;
+  --primary:#0E7C86;
+  --accent:#C87941;
+  --accent-soft:#E9C1A1;
+  --border:#E2E8ED;
+  --shadow:0 18px 48px rgba(15,31,42,.08);
+  --shadow-soft:0 10px 28px rgba(15,31,42,.06);
+  --hero-shadow:0 28px 90px rgba(4,11,16,.35);
+  --radius:24px;
+  --radius-sm:16px;
+  --font-display:'DM Serif Display', Georgia, serif;
+  --font-body:'Inter', system-ui, sans-serif;
+  --font-mono:'JetBrains Mono', monospace;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+html{scroll-behavior:smooth;font-size:16px;overflow-x:hidden}
+body{font-family:var(--font-body);background:var(--bg-primary);color:var(--text-primary);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+button,input,select{font:inherit}
+img,svg{display:block;max-width:100%}
+#scroll-progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:10001;background:linear-gradient(90deg,var(--primary),var(--accent))}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;opacity:.035;z-index:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 32px;transition:all .35s var(--ease)}
+.nav.scrolled{background:rgba(250,251,252,.82);backdrop-filter:blur(16px);border-bottom:1px solid rgba(226,232,237,.8)}
+.nav.theme-dark.scrolled{background:rgba(11,29,38,.72);border-bottom:1px solid rgba(255,255,255,.08)}
+.nav-inner{max-width:1280px;margin:0 auto;height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.nav-logo{font-family:var(--font-display);font-size:1.55rem;letter-spacing:-.02em}
+.nav-logo em{font-style:normal;color:var(--accent)}
+.nav-links{display:flex;align-items:center;gap:30px;list-style:none}
+.nav-links a{font-size:.92rem;color:var(--text-secondary);position:relative;transition:color .25s ease}
+.nav.theme-dark .nav-links a{color:rgba(255,255,255,.72)}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-7px;width:0;height:2px;background:var(--accent);transition:width .28s var(--ease)}
+.nav-links a:hover{color:var(--text-primary)}
+.nav.theme-dark .nav-links a:hover{color:#fff}
+.nav-links a:hover::after{width:100%}
+.nav-cta{border:none;border-radius:999px;padding:12px 20px;background:var(--text-primary);color:#fff;font-weight:700;cursor:pointer;transition:transform .25s var(--ease),background .25s ease,box-shadow .25s ease}
+.nav.theme-dark .nav-cta{background:#fff;color:var(--bg-hero)}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:var(--shadow-soft)}
+.nav-hamburger{display:none;background:none;border:none;font-size:1.5rem;cursor:pointer;color:inherit}
+
+.hero{position:relative;min-height:100vh;background:var(--bg-hero);color:#F5F7F8;padding:132px 32px 80px;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:
+linear-gradient(120deg,rgba(255,255,255,.035),transparent 28%),
+radial-gradient(circle at 84% 18%,rgba(200,121,65,.16),transparent 30%),
+linear-gradient(180deg,rgba(255,255,255,.03),transparent 24%,transparent 74%,rgba(255,255,255,.02));pointer-events:none}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 68%,rgba(11,29,38,.65) 100%);pointer-events:none}
+.hero-inner{position:relative;z-index:2;max-width:1280px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.02fr) minmax(420px,.98fr);gap:44px;align-items:end}
+.hero-copy{max-width:700px;padding-top:48px}
+.hero-badge{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.04);font-size:.77rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.78);margin-bottom:20px}
+.hero-badge::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px rgba(200,121,65,.15)}
+.hero h1{font-family:var(--font-display);font-size:clamp(4rem,6vw,6.6rem);line-height:.96;letter-spacing:-.055em;max-width:8.8ch}
+.hero h1 .accent{color:#F2D3BF}
+.hero-sub{margin:28px 0 34px;max-width:560px;font-size:1.08rem;color:rgba(245,247,248,.76)}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn-primary,.btn-secondary{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:16px 24px;font-weight:700;transition:transform .26s var(--ease),box-shadow .26s ease,background .26s ease,border-color .26s ease}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 14px 38px rgba(200,121,65,.22)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 46px rgba(200,121,65,.32)}
+.btn-secondary{border:1px solid rgba(255,255,255,.16);color:#fff;background:rgba(255,255,255,.02)}
+.btn-secondary:hover{transform:translateY(-2px);background:rgba(255,255,255,.06)}
+.hero-micro{margin-top:34px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;max-width:720px}
+.hero-micro-card{padding:18px 18px 16px;border-top:1px solid rgba(255,255,255,.18);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));backdrop-filter:blur(8px)}
+.hero-micro-card .num{font-family:var(--font-display);font-size:2rem;color:#fff;line-height:1}
+.hero-micro-card .lbl{margin-top:6px;font-size:.82rem;color:rgba(255,255,255,.62);text-transform:uppercase;letter-spacing:.12em}
+.hero-art{position:relative;min-height:700px;display:flex;align-items:flex-end;justify-content:flex-end}
+.hero-frame{position:relative;width:min(620px,100%);aspect-ratio:4/5;border-radius:32px 32px 26px 26px;overflow:hidden;background:linear-gradient(180deg,#102833 0%,#133240 20%,#e9eff2 20%,#e9eff2 100%);box-shadow:var(--hero-shadow)}
+.hero-frame::before{content:'';position:absolute;left:24px;right:24px;top:22px;height:14px;border:2px solid rgba(255,255,255,.55);border-bottom:none;border-radius:999px 999px 0 0;opacity:.8}
+.hero-rings{position:absolute;top:24px;left:48px;right:48px;display:flex;justify-content:space-between;z-index:3}
+.hero-rings span{width:16px;height:16px;border-radius:50%;border:2px solid #d5b299;background:rgba(11,29,38,.5);box-shadow:inset 0 0 0 2px rgba(255,255,255,.07)}
+.hero-curtain{position:absolute;inset:56px 0 0;background:
+linear-gradient(90deg,rgba(26,43,53,.14) 0%,rgba(255,255,255,.03) 10%,rgba(26,43,53,.16) 20%,rgba(255,255,255,.04) 31%,rgba(26,43,53,.18) 42%,rgba(255,255,255,.02) 54%,rgba(26,43,53,.16) 67%,rgba(255,255,255,.03) 79%,rgba(26,43,53,.13) 100%),
+linear-gradient(180deg,#dfe9ee 0%,#f9fbfc 24%,#e8eff2 60%,#d9e5eb 100%);
+clip-path:polygon(0 0,100% 0,100% 86%,94% 83%,88% 90%,82% 84%,76% 91%,70% 85%,64% 92%,58% 86%,52% 93%,46% 87%,40% 92%,34% 86%,28% 92%,22% 85%,16% 90%,10% 83%,0 86%);
+transform-origin:top center;animation:curtainSway 9s ease-in-out infinite}
+.hero-curtain::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 3px,transparent 3px 36px)}
+.hero-curtain::after{content:'';position:absolute;inset:auto 0 0 0;height:34%;background:linear-gradient(180deg,transparent,rgba(11,29,38,.1));opacity:.5}
+.hero-note{position:absolute;left:-32px;bottom:90px;max-width:220px;padding:18px 18px 16px;border-radius:20px;background:rgba(255,255,255,.9);color:var(--text-primary);box-shadow:var(--shadow);z-index:4}
+.hero-note .eyebrow{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.hero-note p{font-size:.9rem;margin-top:8px;color:var(--text-secondary);line-height:1.5}
+.hero-rail{position:absolute;right:-10px;top:70px;writing-mode:vertical-rl;transform:rotate(180deg);font-size:.8rem;letter-spacing:.28em;color:rgba(255,255,255,.42);text-transform:uppercase}
+
+main{position:relative;z-index:1;background:var(--bg-primary)}
+section{padding:88px 32px;position:relative}
+.section-inner{max-width:1280px;margin:0 auto}
+.section-head{display:grid;grid-template-columns:minmax(0,.7fr) minmax(320px,.52fr);gap:40px;align-items:end;margin-bottom:44px}
+.section-label{display:inline-flex;align-items:center;gap:12px;font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.section-label::before{content:'';width:36px;height:1px;background:currentColor}
+.section-title{font-family:var(--font-display);font-size:clamp(2.4rem,4vw,4rem);line-height:1.02;letter-spacing:-.04em}
+.section-sub{color:var(--text-secondary);font-size:1.02rem;max-width:540px}
+.bg-sunken{background:var(--bg-sunken)}
+
+.stats-band{padding:28px 32px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg-elevated);overflow:hidden}
+.stats-track{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:24px}
+.stat-item{padding-right:18px;border-right:1px solid var(--border)}
+.stat-item:last-child{border-right:none}
+.stat-item .num{font-family:var(--font-display);font-size:2.55rem;line-height:1;color:var(--text-primary)}
+.stat-item .lbl{margin-top:8px;font-size:.86rem;line-height:1.5;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.12em}
+
+.about-layout{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(340px,.98fr);gap:48px;align-items:center}
+.about-card{background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);padding:34px;box-shadow:var(--shadow-soft)}
+.about-card p{color:var(--text-secondary);font-size:1.05rem;line-height:1.8}
+.about-visual{position:relative;min-height:540px}
+.about-stack{position:absolute;inset:0;display:grid;grid-template-columns:1.05fr .8fr;grid-template-rows:1fr auto;gap:18px}
+.about-panel{background:var(--bg-elevated);border:1px solid var(--border);border-radius:28px;box-shadow:var(--shadow-soft);overflow:hidden;position:relative}
+.about-panel.main{padding:28px;background:linear-gradient(180deg,#fff,#f7fafc)}
+.about-panel.main::before{content:'';position:absolute;right:-18%;top:-10%;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(14,124,134,.14),transparent 70%)}
+.about-panel.main .curtain-mini{margin-top:28px;height:330px;border-radius:22px;background:#f0f4f6;position:relative;overflow:hidden}
+.about-panel.main .curtain-mini::before{content:'';position:absolute;left:24px;right:24px;top:18px;height:12px;border:2px solid rgba(26,43,53,.32);border-bottom:none;border-radius:999px 999px 0 0}
+.about-panel.main .curtain-mini::after{content:'';position:absolute;inset:46px 18px 0;background:
+linear-gradient(90deg,rgba(26,43,53,.12) 0%,rgba(255,255,255,.04) 12%,rgba(26,43,53,.13) 24%,rgba(255,255,255,.04) 36%,rgba(26,43,53,.12) 48%,rgba(255,255,255,.05) 60%,rgba(26,43,53,.14) 72%,rgba(255,255,255,.04) 84%,rgba(26,43,53,.12) 100%),
+linear-gradient(180deg,#dbe6ea,#eef4f6 44%,#d8e3e8 100%);
+clip-path:polygon(0 0,100% 0,100% 89%,92% 85%,84% 92%,76% 86%,68% 93%,60% 87%,52% 94%,44% 88%,36% 93%,28% 86%,20% 92%,12% 85%,0 89%)}
+.about-panel.side{padding:24px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(180deg,#fff,#f5f8fa)}
+.about-panel.side .kicker{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:800}
+.about-panel.side h3{font-family:var(--font-display);font-size:1.9rem;line-height:1.04;margin-top:8px}
+.about-panel.side p{color:var(--text-secondary);font-size:.95rem;margin-top:10px}
+.about-panel.bar{grid-column:1/-1;padding:22px 24px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;background:var(--text-primary);color:#fff}
+.about-panel.bar strong{display:block;font-family:var(--font-display);font-size:1.9rem;line-height:1;color:#fff}
+.about-panel.bar span{display:block;margin-top:6px;font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.64)}
+
+.bento-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:20px;align-items:stretch}
+.bento-card{position:relative;background:var(--bg-elevated);border:1px solid var(--border);border-radius:28px;padding:30px;box-shadow:var(--shadow-soft);overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s ease,border-color .3s ease}
+.bento-card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:#ced8de}
+.bento-card::before{content:'';position:absolute;inset:auto -18% -42% auto;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(14,124,134,.08),transparent 72%)}
+.bento-card .card-tag{display:inline-flex;padding:6px 10px;border-radius:999px;background:rgba(200,121,65,.11);color:var(--accent);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-bottom:18px}
+.card-icon{width:62px;height:62px;border-radius:20px;background:linear-gradient(180deg,#f7fafb,#edf3f6);display:flex;align-items:center;justify-content:center;border:1px solid var(--border);margin-bottom:18px}
+.card-icon svg{width:34px;height:34px;stroke:var(--primary);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.bento-card h3{font-family:var(--font-display);font-size:1.85rem;line-height:1.04;letter-spacing:-.03em;margin-bottom:10px;max-width:12ch}
+.bento-card p{color:var(--text-secondary);font-size:.98rem;max-width:48ch}
+.bento-1{grid-column:1/span 7;min-height:420px;padding-bottom:34px}
+.bento-1 .service-rail{margin-top:26px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.bento-1 .mini-stat{background:#f6f9fb;border:1px solid var(--border);border-radius:18px;padding:18px}
+.bento-1 .mini-stat .val{font-family:var(--font-display);font-size:2rem;color:var(--accent);line-height:1}
+.bento-1 .mini-stat .lbl{margin-top:7px;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-secondary)}
+.bento-1 .gesture{position:absolute;right:24px;bottom:24px;width:180px;height:220px;border-radius:26px 26px 18px 18px;background:linear-gradient(180deg,#17333f 0%,#294858 18%,#eff4f6 18%,#eff4f6 100%);overflow:hidden;box-shadow:0 18px 36px rgba(15,31,42,.12)}
+.bento-1 .gesture::before{content:'';position:absolute;left:16px;right:16px;top:14px;height:10px;border:2px solid rgba(255,255,255,.55);border-bottom:none;border-radius:999px 999px 0 0}
+.bento-1 .gesture::after{content:'';position:absolute;inset:36px 0 0;background:linear-gradient(90deg,rgba(26,43,53,.12) 0%,rgba(255,255,255,.04) 16%,rgba(26,43,53,.14) 32%,rgba(255,255,255,.03) 49%,rgba(26,43,53,.12) 66%,rgba(255,255,255,.05) 82%,rgba(26,43,53,.14) 100%),linear-gradient(180deg,#dde7eb,#f8fbfc 34%,#dfe8ec 100%);clip-path:polygon(0 0,100% 0,100% 88%,92% 84%,84% 90%,76% 85%,68% 91%,60% 86%,52% 92%,44% 87%,36% 91%,28% 85%,20% 90%,12% 84%,0 88%)}
+.bento-2{grid-column:8/span 5;min-height:200px;transform:translateY(24px)}
+.bento-3{grid-column:8/span 5;min-height:200px}
+.bento-4{grid-column:1/span 4;min-height:220px}
+.bento-5{grid-column:5/span 4;min-height:220px;transform:translateY(-18px)}
+.bento-6{grid-column:9/span 4;min-height:220px}
+
+.config-section{background:linear-gradient(180deg,#fff 0%,#f8fbfc 100%);padding-top:98px;padding-bottom:102px}
+.config-shell{position:relative;background:var(--bg-elevated);border:1px solid var(--border);border-radius:36px;padding:34px;box-shadow:0 26px 70px rgba(15,31,42,.08);overflow:hidden}
+.config-shell::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.7),transparent 22%,transparent 78%,rgba(240,243,245,.55));pointer-events:none}
+.config-shell::after{content:'';position:absolute;right:-140px;top:-140px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(200,121,65,.11),transparent 68%);pointer-events:none}
+.config-top{display:grid;grid-template-columns:minmax(0,.65fr) minmax(280px,.35fr);gap:32px;align-items:start;margin-bottom:34px}
+.config-kicker{font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:800;margin-bottom:12px}
+.config-title{font-family:var(--font-display);font-size:clamp(2.5rem,4vw,4.4rem);line-height:.97;letter-spacing:-.045em;max-width:11ch}
+.config-copy{color:var(--text-secondary);font-size:1.02rem;max-width:46ch;margin-top:14px}
+.config-meta{display:grid;gap:14px}
+.config-stat{padding:18px 18px 16px;background:#f7fafb;border:1px solid var(--border);border-radius:18px}
+.config-stat strong{display:block;font-family:var(--font-display);font-size:1.7rem;line-height:1;color:var(--text-primary)}
+.config-stat span{display:block;margin-top:6px;font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-secondary)}
+.config-layout{display:grid;grid-template-columns:minmax(320px,.44fr) minmax(0,.56fr);gap:34px;align-items:center}
+.config-controls{display:grid;gap:18px}
+.control-card{background:#fbfcfd;border:1px solid var(--border);border-radius:22px;padding:22px;transition:transform .28s var(--ease),box-shadow .28s ease,border-color .28s ease}
+.control-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-soft)}
+.control-card header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.control-card h4{font-size:.96rem;font-weight:800;letter-spacing:.02em}
+.control-card small{font-family:var(--font-mono);font-size:.74rem;color:var(--text-secondary)}
+.segmented{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.segmented.patterns{grid-template-columns:repeat(4,minmax(0,1fr))}
+.seg-btn{border:1px solid var(--border);background:#fff;border-radius:16px;padding:14px 12px;text-align:left;cursor:pointer;transition:all .22s var(--ease);min-height:84px}
+.seg-btn strong{display:block;font-size:.92rem;line-height:1.15}
+.seg-btn span{display:block;margin-top:6px;font-size:.76rem;color:var(--text-secondary)}
+.seg-btn.active{border-color:rgba(14,124,134,.38);background:#f3fafb;box-shadow:inset 0 0 0 1px rgba(14,124,134,.14)}
+.seg-btn:hover{transform:translateY(-1px);border-color:#d4dde2}
+.color-swatches,.finish-swatches{display:flex;flex-wrap:wrap;gap:12px}
+.color-swatch,.finish-chip{border:none;background:none;cursor:pointer}
+.color-swatch{width:44px;height:44px;border-radius:50%;position:relative;border:1px solid rgba(26,43,53,.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);background:var(--swatch);transition:transform .2s var(--ease),box-shadow .2s ease}
+.color-swatch:hover{transform:translateY(-2px)}
+.color-swatch.active{box-shadow:0 0 0 3px #fff,0 0 0 5px rgba(26,43,53,.16)}
+.color-swatch.light{border-color:rgba(26,43,53,.18)}
+.finish-chip{padding:12px 14px;border-radius:999px;border:1px solid var(--border);background:#fff;font-weight:700;font-size:.88rem;color:var(--text-secondary);transition:all .2s var(--ease)}
+.finish-chip.active{background:var(--text-primary);color:#fff;border-color:var(--text-primary)}
+.finish-chip[data-finish="brass"].active{background:var(--accent);border-color:var(--accent)}
+.finish-chip[data-finish="chrome"]{background:linear-gradient(180deg,#fff,#edf2f5)}
+.finish-chip[data-finish="black"]{background:linear-gradient(180deg,#34424b,#18252d);color:#fff}
+.finish-chip[data-finish="black"].active{border-color:#18252d}
+.material-note{margin-top:12px;font-size:.88rem;color:var(--text-secondary)}
+.config-stage{position:relative;min-height:760px;padding:24px;border-radius:30px;background:linear-gradient(180deg,#f8fbfc 0%,#eef4f6 100%);border:1px solid var(--border);overflow:hidden}
+.config-stage::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.56),transparent 20%,transparent 80%,rgba(255,255,255,.38));pointer-events:none}
+.config-stage::after{content:'';position:absolute;inset:auto 10% 3% 10%;height:20px;border-radius:50%;background:radial-gradient(circle,rgba(15,31,42,.14),transparent 70%);filter:blur(10px)}
+.stage-caption{position:absolute;left:30px;top:28px;display:flex;align-items:center;gap:12px;z-index:4}
+.stage-caption .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 6px rgba(200,121,65,.12)}
+.stage-caption div{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-secondary);font-weight:800}
+.curtain-preview{position:absolute;inset:78px 46px 60px;border-radius:30px 30px 24px 24px;background:linear-gradient(180deg,#17343f 0%,#25495a 17%,#e6edf1 17%,#e6edf1 100%);overflow:hidden;box-shadow:0 34px 70px rgba(15,31,42,.12);transform:perspective(1200px) rotateY(-8deg) rotateX(1deg);transition:transform .55s var(--ease),box-shadow .55s ease}
+.config-stage:hover .curtain-preview{transform:perspective(1200px) rotateY(-3deg) rotateX(.4deg)}
+.curtain-preview.surge{animation:surge .65s var(--ease)}
+.curtain-rod{position:absolute;left:44px;right:44px;top:26px;height:18px;border-radius:999px;background:linear-gradient(180deg,#f6f8f9,#aebbc5 55%,#edf3f6 100%);box-shadow:inset 0 1px 1px rgba(255,255,255,.7)}
+.curtain-rings-row{position:absolute;left:58px;right:58px;top:34px;display:flex;justify-content:space-between;z-index:4}
+.c-ring{width:18px;height:18px;border-radius:50%;border:2px solid #d8c09d;background:rgba(11,29,38,.32);transition:border-color .35s ease,background .35s ease,box-shadow .35s ease}
+.c-ring.chrome{border-color:#cbd4da;background:#f8fbfc}
+.c-ring.brass{border-color:#C87941;background:#f2dfd0;box-shadow:0 0 0 2px rgba(200,121,65,.08)}
+.c-ring.black{border-color:#17252e;background:#3e4d55}
+.fabric-wrap{position:absolute;inset:68px 0 0;overflow:hidden}
+.curtain-fabric{position:absolute;inset:0;transform-origin:top center;transition:background .45s ease,filter .45s ease,transform .55s var(--ease)}
+.curtain-folds{position:absolute;inset:0;background:
+linear-gradient(90deg,rgba(26,43,53,.16) 0%,rgba(255,255,255,.04) 8%,rgba(26,43,53,.18) 15%,rgba(255,255,255,.05) 22%,rgba(26,43,53,.17) 30%,rgba(255,255,255,.05) 38%,rgba(26,43,53,.18) 47%,rgba(255,255,255,.05) 56%,rgba(26,43,53,.17) 65%,rgba(255,255,255,.05) 74%,rgba(26,43,53,.16) 83%,rgba(255,255,255,.04) 92%,rgba(26,43,53,.14) 100%);
+mix-blend-mode:multiply;opacity:.32;pointer-events:none}
+.fabric-sheen{position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.28) 34%,transparent 44%,transparent 58%,rgba(255,255,255,.18) 66%,transparent 74%);mix-blend-mode:screen;opacity:.46;pointer-events:none;transform:translateX(-8%);transition:transform .8s var(--ease),opacity .4s ease}
+.curtain-hem{position:absolute;left:0;right:0;bottom:0;height:22%;background:linear-gradient(180deg,transparent,rgba(11,29,38,.1));pointer-events:none}
+.config-stage:hover .fabric-sheen{transform:translateX(3%)}
+.fabric-shape{position:absolute;inset:0;clip-path:polygon(0 0,100% 0,100% 88%,94% 84%,88% 91%,82% 85%,76% 92%,70% 86%,64% 93%,58% 87%,52% 94%,46% 88%,40% 93%,34% 87%,28% 92%,22% 86%,16% 91%,10% 84%,0 88%)}
+.stage-callout{position:absolute;right:28px;bottom:26px;z-index:4;max-width:220px;padding:18px 18px 16px;border-radius:20px;background:rgba(255,255,255,.94);border:1px solid rgba(226,232,237,.9);box-shadow:var(--shadow)}
+.stage-callout .eyebrow{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:800}
+.stage-callout p{margin-top:8px;font-size:.92rem;line-height:1.5;color:var(--text-secondary)}
+.stage-index{position:absolute;left:30px;bottom:22px;font-family:var(--font-display);font-size:5rem;line-height:.8;color:rgba(26,43,53,.08);pointer-events:none}
+.fabric-solid{background:linear-gradient(180deg,var(--fabric-light),var(--fabric-base) 46%,var(--fabric-dark) 100%)}
+.fabric-striped{background:
+repeating-linear-gradient(90deg,rgba(255,255,255,.12) 0 22px,rgba(255,255,255,0) 22px 58px),
+linear-gradient(180deg,var(--fabric-light),var(--fabric-base) 44%,var(--fabric-dark) 100%)}
+.fabric-waves{background:
+radial-gradient(circle at 18% 10%,rgba(255,255,255,.24) 0 7%,transparent 8%),
+radial-gradient(circle at 42% 18%,rgba(255,255,255,.14) 0 6%,transparent 7%),
+radial-gradient(circle at 76% 26%,rgba(255,255,255,.22) 0 8%,transparent 9%),
+radial-gradient(circle at 30% 60%,rgba(255,255,255,.14) 0 8%,transparent 9%),
+repeating-radial-gradient(circle at 50% 50%,rgba(255,255,255,.08) 0 10px,transparent 10px 44px),
+linear-gradient(180deg,var(--fabric-light),var(--fabric-base) 50%,var(--fabric-dark) 100%)}
+.fabric-geometric{background:
+repeating-conic-gradient(from 45deg,rgba(255,255,255,.11) 0 12.5%,transparent 12.5% 25%),
+linear-gradient(180deg,var(--fabric-light),var(--fabric-base) 46%,var(--fabric-dark) 100%);background-size:56px 56px,auto}
+
+.testimonials-wrap{position:relative;overflow:hidden}
+.testimonial-track{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(330px,1fr);gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:12px;scrollbar-width:none}
+.testimonial-track::-webkit-scrollbar{display:none}
+.testimonial-card{scroll-snap-align:start;background:var(--bg-elevated);border:1px solid var(--border);border-radius:28px;padding:34px 30px;box-shadow:var(--shadow-soft);min-height:300px;display:flex;flex-direction:column;justify-content:space-between;position:relative}
+.testimonial-card::before{content:'“';position:absolute;top:12px;right:24px;font-family:var(--font-display);font-size:7rem;line-height:1;color:rgba(200,121,65,.12)}
+.testimonial-card .stars{font-size:.88rem;letter-spacing:.22em;color:var(--accent);margin-bottom:18px}
+.testimonial-card blockquote{font-size:1.08rem;line-height:1.75;color:var(--text-primary);max-width:30ch;position:relative;z-index:1}
+.author{display:flex;align-items:center;gap:14px;margin-top:26px}
+.avatar{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-size:.8rem;font-weight:800;color:#fff}
+.avatar.mr{background:linear-gradient(135deg,#0E7C86,#173746)}
+.avatar.dh{background:linear-gradient(135deg,#C87941,#8f4f24)}
+.avatar.ps{background:linear-gradient(135deg,#738c86,#9fa6b8)}
+.author-info .name{font-weight:800;font-size:.95rem}
+.author-info .role{font-size:.84rem;color:var(--text-secondary)}
+.testimonial-nav{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+.t-dot{width:12px;height:12px;border-radius:50%;border:none;background:#d5dde2;cursor:pointer;transition:all .2s ease}
+.t-dot.active{background:var(--accent);transform:scale(1.1)}
+
+.partners-rail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.partner-card{background:var(--bg-elevated);border:1px solid var(--border);border-radius:24px;padding:24px;min-height:152px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--shadow-soft);transition:transform .28s var(--ease),box-shadow .28s ease,border-color .28s ease}
+.partner-card:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:#d1dade}
+.partner-card .m-icon{width:48px;height:48px;display:grid;place-items:center;color:var(--primary)}
+.partner-card .m-icon svg{width:44px;height:44px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
+.partner-card .m-icon text{fill:currentColor;stroke:none;font-size:8px;font-weight:800;font-family:var(--font-body)}
+.partner-card strong{font-size:1.1rem;letter-spacing:-.02em}
+.partner-card span{font-size:.86rem;color:var(--text-secondary)}
+
+.newsletter{position:relative;border-radius:32px;overflow:hidden;background:linear-gradient(135deg,#15333f 0%,#0E7C86 56%,#1a3037 100%);color:#fff;padding:58px 48px;border:1px solid rgba(255,255,255,.08);box-shadow:0 24px 70px rgba(10,32,42,.18)}
+.newsletter::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 18% 22%,rgba(255,255,255,.14),transparent 26%),radial-gradient(circle at 80% 70%,rgba(200,121,65,.22),transparent 28%)}
+.newsletter-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,.65fr) minmax(320px,.35fr);gap:30px;align-items:end}
+.newsletter h2{font-family:var(--font-display);font-size:clamp(2rem,3vw,3.2rem);line-height:1.02;letter-spacing:-.04em;max-width:10ch}
+.newsletter p{margin-top:12px;max-width:40ch;color:rgba(255,255,255,.76)}
+.newsletter-form{display:flex;gap:12px;align-items:center}
+.newsletter-form input{flex:1;border:none;border-radius:999px;padding:16px 18px;background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.16)}
+.newsletter-form input::placeholder{color:rgba(255,255,255,.6)}
+.newsletter-form input:focus{outline:none;border-color:rgba(255,255,255,.3)}
+.newsletter-form button{border:none;border-radius:999px;padding:16px 22px;background:#fff;color:var(--bg-hero);font-weight:800;cursor:pointer;transition:transform .25s var(--ease)}
+.newsletter-form button:hover{transform:translateY(-2px)}
+
+.footer{padding:88px 32px 34px;border-top:1px solid var(--border);background:#fff}
+.footer-inner{max-width:1280px;margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;margin-bottom:56px}
+.footer h4{font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:16px}
+.footer p,.footer a{font-size:.94rem;color:var(--text-secondary);line-height:1.8}
+.footer a:hover{color:var(--text-primary)}
+.footer-brand p{max-width:320px}
+.footer-bottom{padding-top:20px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:20px}
+.footer-bottom p{font-size:.84rem;color:var(--text-secondary)}
+
+.chat-fab{position:fixed;right:28px;bottom:28px;width:62px;height:62px;border:none;border-radius:50%;background:linear-gradient(135deg,var(--accent),#9f5a2a);color:#fff;font-size:1.45rem;cursor:pointer;z-index:9999;box-shadow:0 20px 50px rgba(200,121,65,.28);transition:transform .25s var(--ease)}
+.chat-fab:hover{transform:translateY(-3px) scale(1.04)}
+.chat-panel{position:fixed;right:28px;bottom:102px;width:360px;max-height:460px;background:#fff;border:1px solid var(--border);border-radius:24px;box-shadow:0 26px 80px rgba(15,31,42,.18);z-index:9999;display:flex;flex-direction:column;transform:translateY(16px) scale(.94);opacity:0;pointer-events:none;transition:all .35s var(--ease)}
+.chat-panel.open{transform:translateY(0) scale(1);opacity:1;pointer-events:auto}
+.chat-header{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-weight:800}
+.chat-close{border:none;background:none;font-size:1.15rem;cursor:pointer;color:var(--text-secondary)}
+.chat-body{min-height:220px;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+.chat-msg{max-width:82%;padding:12px 14px;border-radius:16px;font-size:.88rem;line-height:1.5}
+.chat-msg.bot{align-self:flex-start;background:#f4f8fa;border:1px solid var(--border);color:var(--text-primary)}
+.chat-msg.user{align-self:flex-end;background:var(--text-primary);color:#fff}
+.chat-footer{padding:14px;border-top:1px solid var(--border);display:flex;gap:8px}
+.chat-input{flex:1;border:1px solid var(--border);border-radius:12px;padding:10px 12px;outline:none}
+.chat-send{border:none;border-radius:12px;padding:10px 16px;background:var(--accent);color:#fff;font-weight:800;cursor:pointer}
+
+#help-overlay{position:fixed;inset:0;background:rgba(6,18,24,.56);backdrop-filter:blur(7px);z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease}
+#help-overlay.visible{opacity:1;pointer-events:auto}
+.help-box{width:min(92vw,430px);background:#fff;border:1px solid var(--border);border-radius:24px;padding:30px;box-shadow:var(--shadow)}
+.help-box h3{font-family:var(--font-display);font-size:1.8rem;letter-spacing:-.03em;margin-bottom:18px}
+.help-box table{width:100%}
+.help-box td{padding:8px 0;color:var(--text-secondary);font-size:.95rem}
+.help-box kbd{display:inline-flex;align-items:center;justify-content:center;min-width:32px;padding:5px 9px;border-radius:8px;background:#f4f7f9;border:1px solid var(--border);font-family:var(--font-mono);font-size:.78rem;color:var(--text-primary)}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.08s}.reveal-delay-2{transition-delay:.16s}.reveal-delay-3{transition-delay:.24s}.reveal-delay-4{transition-delay:.32s}.reveal-delay-5{transition-delay:.4s}
+
+[data-theme="light"] body{background:var(--bg-primary)}
+[data-theme="light"] .hero{background:#f7fbfc;color:var(--text-primary)}
+[data-theme="light"] .hero::before{background:radial-gradient(circle at 78% 18%,rgba(200,121,65,.12),transparent 28%),linear-gradient(180deg,rgba(255,255,255,.7),transparent 28%)}
+[data-theme="light"] .hero::after{background:linear-gradient(180deg,transparent 70%,rgba(240,243,245,.7))}
+[data-theme="light"] .hero-badge{border-color:rgba(26,43,53,.1);background:rgba(255,255,255,.7);color:var(--text-secondary)}
+[data-theme="light"] .hero-sub{color:var(--text-secondary)}
+[data-theme="light"] .btn-secondary{border-color:rgba(26,43,53,.12);color:var(--text-primary)}
+[data-theme="light"] .hero-micro-card{background:rgba(255,255,255,.8);border-top:1px solid rgba(26,43,53,.08)}
+[data-theme="light"] .hero-micro-card .lbl{color:var(--text-secondary)}
+[data-theme="light"] .hero-rail{color:rgba(26,43,53,.24)}
+[data-theme="light"] .nav.scrolled{background:rgba(250,251,252,.82)}
+[data-theme="light"] .nav.theme-dark{color:var(--text-primary)}
+[data-theme="light"] .nav.theme-dark .nav-links a{color:var(--text-secondary)}
+[data-theme="light"] .nav.theme-dark .nav-cta{background:var(--text-primary);color:#fff}
+
+@keyframes curtainSway{0%,100%{transform:rotate(-1.2deg) translateY(0)}50%{transform:rotate(.9deg) translateY(4px)}}
+@keyframes surge{0%{transform:perspective(1200px) rotateY(-8deg) rotateX(1deg) scale(1)}35%{transform:perspective(1200px) rotateY(-5deg) rotateX(.6deg) scale(1.015)}100%{transform:perspective(1200px) rotateY(-8deg) rotateX(1deg) scale(1)}}
+@keyframes duckFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+@media (max-width:1180px){
+  .hero-inner,.section-head,.config-top,.config-layout,.about-layout,.newsletter-grid{grid-template-columns:1fr}
+  .hero-art{min-height:560px;justify-content:flex-start}
+  .hero-frame{max-width:620px}
+  .hero-note{left:auto;right:20px;bottom:20px}
+  .stats-track{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .bento-1,.bento-2,.bento-3,.bento-4,.bento-5,.bento-6{grid-column:span 6;transform:none}
+  .partners-rail{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .footer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:860px){
+  .nav{padding:0 20px}.hero,section,.footer{padding-left:20px;padding-right:20px}.stats-band{padding-left:20px;padding-right:20px}
+  .nav-links{display:none;position:fixed;inset:0;background:rgba(11,29,38,.95);flex-direction:column;justify-content:center;align-items:center;gap:28px;z-index:999}
+  .nav-links.open{display:flex}
+  .nav-hamburger{display:block;position:relative;z-index:1001}
+  .hero{padding-top:110px}
+  .hero h1{max-width:10ch;font-size:clamp(3.2rem,13vw,5rem)}
+  .hero-micro{grid-template-columns:1fr}
+  .hero-art{min-height:460px}
+  .hero-frame{width:100%}
+  .hero-rail{display:none}
+  .stats-track{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stat-item:nth-child(2n){border-right:none}
+  .bento-1,.bento-2,.bento-3,.bento-4,.bento-5,.bento-6{grid-column:1/-1}
+  .bento-1 .gesture{position:relative;right:auto;bottom:auto;margin-top:24px;width:100%;max-width:260px;height:220px}
+  .bento-1 .service-rail,.about-panel.bar,.segmented.patterns{grid-template-columns:1fr 1fr}
+  .config-stage{min-height:620px}
+  .curtain-preview{inset:82px 24px 34px}
+  .testimonial-track{grid-auto-columns:88%}
+  .partners-rail,.footer-grid{grid-template-columns:1fr}
+  .newsletter-form{flex-direction:column;align-items:stretch}
+  .chat-panel{width:min(92vw,360px);right:14px;bottom:88px}.chat-fab{right:14px;bottom:14px}
+}
+@media (max-width:560px){
+  .stats-track{grid-template-columns:1fr}.stat-item{border-right:none;padding-right:0}
+  .bento-1 .service-rail,.segmented,.segmented.patterns,.about-panel.bar{grid-template-columns:1fr}
+  .config-shell{padding:20px}.control-card{padding:18px}.config-stage{min-height:520px;padding:14px}.curtain-preview{inset:78px 12px 18px}.stage-callout{display:none}
+}
+</style>
+</head>
+<body>
+<div id="scroll-progress"></div>
+
+<nav class="nav theme-dark">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Shower<em>Master</em></a>
+    <button class="nav-hamburger" aria-label="Menu">☰</button>
+    <ul class="nav-links">
+      <li><a href="about.html">Team</a></li>
+      <li><a href="sales-lab.html">ShowerLAB™</a></li>
+      <li><a href="sales-accelerator.html">Accelerator</a></li>
+      <li><a href="emergence.html">CurtainCon™</a></li>
+      <li><a href="awards.html">Awards</a></li>
+      <li><a href="contact.html" class="nav-cta">Get in Touch</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-copy reveal visible">
+      <div class="hero-badge">Top Shower Curtain Consulting Firm 2025</div>
+      <h1>
+        Where Strategy<br>
+        Meets the <span class="accent">Splash Zone</span>
+      </h1>
+      <p class="hero-sub">The shower curtain industry's premier management consulting firm. We turn complexity into competitive advantage for 500+ brands worldwide.</p>
+      <div class="hero-btns">
+        <a href="sales-lab.html" class="btn-primary">Explore ShowerLAB™</a>
+        <a href="about.html" class="btn-secondary">Meet the Team →</a>
+      </div>
+      <div class="hero-micro">
+        <div class="hero-micro-card">
+          <div class="num">500+</div>
+          <div class="lbl">Curtain brands served</div>
+        </div>
+        <div class="hero-micro-card">
+          <div class="num">$8.2B</div>
+          <div class="lbl">Market influenced</div>
+        </div>
+        <div class="hero-micro-card">
+          <div class="num">98%</div>
+          <div class="lbl">Client retention rate</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-art reveal visible">
+      <div class="hero-note">
+        <div class="eyebrow">Industry Insight</div>
+        <p>The global shower curtain market is projected to reach $12.4B by 2028. Is your brand positioned to capture growth?</p>
+      </div>
+      <div class="hero-rail">Editorial Luxury / Strategy / Category Depth</div>
+      <div class="hero-frame" aria-hidden="true">
+        <div class="hero-rings"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="hero-curtain"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main>
+  <div class="stats-band reveal">
+    <div class="stats-track">
+      <div class="stat-item"><div class="num">500+</div><div class="lbl">Curtain Brands Served</div></div>
+      <div class="stat-item"><div class="num">$8.2B</div><div class="lbl">Market Influenced</div></div>
+      <div class="stat-item"><div class="num">13</div><div class="lbl">Annual Industry Forums</div></div>
+      <div class="stat-item"><div class="num">98%</div><div class="lbl">Client Retention Rate</div></div>
+      <div class="stat-item"><div class="num">16</div><div class="lbl">Years of Curtain Excellence</div></div>
+      <div class="stat-item"><div class="num">115+</div><div class="lbl">Retailer Relationships</div></div>
+    </div>
+  </div>
+
+  <section>
+    <div class="section-inner">
+      <div class="about-layout reveal">
+        <div>
+          <div class="section-label">Who We Are</div>
+          <h2 class="section-title">The Consulting Firm Behind the Curtain</h2>
+          <div class="about-card" style="margin-top:22px">
+            <p>Welcome to ShowerMaster — the only management consulting firm dedicated 100% to the $8.2 billion global shower curtain market. We partner with manufacturers, retailers, and designers to accelerate growth, sharpen strategy, and deliver measurable results across the entire curtain value chain.</p>
+          </div>
+        </div>
+        <div class="about-visual">
+          <div class="about-stack">
+            <div class="about-panel main">
+              <div class="section-label" style="font-size:.68rem">Category Intelligence</div>
+              <h3 style="font-family:var(--font-display);font-size:2.25rem;line-height:1.03;letter-spacing:-.03em;max-width:11ch">Deep category expertise. Real market impact.</h3>
+              <div class="curtain-mini"></div>
+            </div>
+            <div class="about-panel side">
+              <div>
+                <div class="kicker">Positioning</div>
+                <h3>Premium positioning.</h3>
+                <p>We help brands move upmarket — from commodity polyester to differentiated textile products that command higher margins.</p>
+              </div>
+            </div>
+            <div class="about-panel bar">
+              <div><strong>34%</strong><span>Avg Revenue Lift</span></div>
+              <div><strong>6mo</strong><span>Time to Impact</span></div>
+              <div><strong>20+</strong><span>Benchmark Metrics</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-sunken" style="padding-top:76px">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <div>
+          <div class="section-label">Capabilities</div>
+          <h2 class="section-title">What We Do</h2>
+        </div>
+        <p class="section-sub">End-to-end capabilities spanning strategy, data, events, and innovation — built for the shower curtain value chain.</p>
+      </div>
+      <div class="bento-grid">
+        <article class="bento-card bento-1 reveal reveal-delay-1">
+          <div class="card-tag">Core Service</div>
+          <div class="card-icon" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="M11 22c-1.6-1-2.6-2.8-2.6-4.9 0-1.2.3-2.3.9-3.2-.8-.4-1.3-1.2-1.3-2.2 0-1.4 1.1-2.6 2.6-2.6.5-2.2 2.4-3.8 4.8-3.8 1.7 0 3.1.8 4 2.1 1.9.2 3.4 1.8 3.4 3.8 0 .9-.3 1.7-.8 2.3.8.8 1.3 1.9 1.3 3.1 0 2.5-2 4.5-4.5 4.5H11Z"/><path d="M14 12c.5 1 1.3 1.7 2.4 2.1"/><path d="M13.2 16.4c1.5-.1 2.8.3 3.8 1.2"/></svg></div>
+          <h3>Strategic Consulting</h3>
+          <p>End-to-end strategy for curtain manufacturers navigating market shifts. From material sourcing to retail channel optimization — we've guided 500+ brands through transformational growth across the full value chain.</p>
+          <div class="service-rail">
+            <div class="mini-stat"><div class="val">34%</div><div class="lbl">Avg Revenue Lift</div></div>
+            <div class="mini-stat"><div class="val">6mo</div><div class="lbl">Time to Impact</div></div>
+            <div class="mini-stat"><div class="val">500+</div><div class="lbl">Brands Served</div></div>
+          </div>
+          <div class="gesture" aria-hidden="true"></div>
+        </article>
+        <article class="bento-card bento-2 reveal reveal-delay-2">
+          <div class="card-icon" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="M6 22V14"/><path d="M14 22V10"/><path d="M22 22V6"/><path d="M4 22h20"/></svg></div>
+          <h3>ShowerLAB™</h3>
+          <p>The industry's only peer-driven benchmarking platform. 20+ metrics covering sales effectiveness, market share, waterproof coating ROI, and retail sell-through.</p>
+        </article>
+        <article class="bento-card bento-3 reveal reveal-delay-3">
+          <div class="card-icon" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="M5 10c2.6 0 4.2 1.1 5.5 3.2l1.2 2"/><path d="M23 10c-2.6 0-4.2 1.1-5.5 3.2l-1.2 2"/><path d="M11.7 15.2 14 17l2.3-1.8"/><path d="M9.5 18.4 14 21l4.5-2.6"/></svg></div>
+          <h3>CurtainCon™ Forums</h3>
+          <p>13 annual roundtables connecting manufacturers with top retailers. Real connections, real insights, real growth opportunities.</p>
+        </article>
+        <article class="bento-card bento-4 reveal reveal-delay-3">
+          <div class="card-icon" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="M7 21 21 7"/><path d="M12 7h9v9"/><path d="M8 17c-.8-1.5-.8-3.2.1-4.7"/><path d="M10.4 19.4c-1.7-.1-3.1-.8-4.1-2.1"/></svg></div>
+          <h3>Sales Accelerator</h3>
+          <p>Turn order-takers into strategic partners. Our toolkit builds high-performance sales teams.</p>
+        </article>
+        <article class="bento-card bento-5 reveal reveal-delay-4">
+          <div class="card-icon" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="M18.5 5.5 22.5 9.5 13 19l-5 1 1-5z"/><path d="M16 8l4 4"/><path d="M9 20.5 6.5 23"/><path d="M14 18c1.8 1.2 3.7 2 5.8 2.3"/></svg></div>
+          <h3>Design & Marketing</h3>
+          <p>Trend forecasting, packaging innovation, and retail activation for bathroom brands.</p>
+        </article>
+        <article class="bento-card bento-6 reveal reveal-delay-5">
+          <div class="card-icon" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="M11 5h6"/><path d="M10 5v4l-4.5 9.5A2 2 0 0 0 7.3 21h13.4a2 2 0 0 0 1.8-2.5L18 9V5"/><path d="M10.5 13h7"/><path d="M11 21v2h6v-2"/></svg></div>
+          <h3>Innovation Labs</h3>
+          <p>Collaborative R&D programs bridging manufacturers and emerging technologies.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="config-section">
+    <div class="section-inner">
+      <div class="config-shell reveal">
+        <div class="config-top">
+          <div>
+            <div class="config-kicker">Interactive Tool</div>
+            <h2 class="config-title">Curtain Configurator</h2>
+            <p class="config-copy">See your vision come to life. Experiment with patterns, materials, and finishes in our real-time preview.</p>
+          </div>
+          <div class="config-meta">
+            <div class="config-stat"><strong>4</strong><span>Pattern families</span></div>
+            <div class="config-stat"><strong>3</strong><span>Ring finishes</span></div>
+            <div class="config-stat"><strong>Responsive</strong><span>Smooth animated preview</span></div>
+          </div>
+        </div>
+
+        <div class="config-layout">
+          <div class="config-controls">
+            <section class="control-card">
+              <header><h4>Pattern</h4><small>01 / Surface language</small></header>
+              <div class="segmented patterns" id="pattern-options">
+                <button type="button" class="seg-btn active" data-pattern="solid"><strong>Solid</strong><span>Quiet and premium</span></button>
+                <button type="button" class="seg-btn" data-pattern="striped"><strong>Striped</strong><span>Hospitality rhythm</span></button>
+                <button type="button" class="seg-btn" data-pattern="waves"><strong>Waves</strong><span>Water-led motion</span></button>
+                <button type="button" class="seg-btn" data-pattern="geometric"><strong>Geometric</strong><span>Retail-forward edge</span></button>
+              </div>
+            </section>
+
+            <section class="control-card">
+              <header><h4>Material</h4><small>02 / Fabric behavior</small></header>
+              <div class="segmented" id="material-options">
+                <button type="button" class="seg-btn active" data-material="polyester"><strong>Polyester Blend</strong><span>Clean drape, broad appeal</span></button>
+                <button type="button" class="seg-btn" data-material="cotton"><strong>Egyptian Cotton</strong><span>Soft texture, hotel feel</span></button>
+                <button type="button" class="seg-btn" data-material="vinyl"><strong>Premium Vinyl</strong><span>Sharper sheen, easy care</span></button>
+                <button type="button" class="seg-btn" data-material="linen"><strong>Belgian Linen</strong><span>Matte depth, boutique look</span></button>
+              </div>
+              <div class="material-note" id="material-note">Polyester Blend keeps the folds crisp and the finish balanced for mass-market premium programs.</div>
+            </section>
+
+            <section class="control-card">
+              <header><h4>Color</h4><small>03 / Palette direction</small></header>
+              <div class="color-swatches" role="radiogroup" aria-label="Curtain colors">
+                <button type="button" class="color-swatch active" style="--swatch:#DDE6EA" data-color="#DDE6EA" aria-label="Mist" role="radio" aria-checked="true"></button>
+                <button type="button" class="color-swatch" style="--swatch:#0E7C86" data-color="#0E7C86" aria-label="Teal" role="radio" aria-checked="false"></button>
+                <button type="button" class="color-swatch" style="--swatch:#233746" data-color="#233746" aria-label="Marine" role="radio" aria-checked="false"></button>
+                <button type="button" class="color-swatch" style="--swatch:#C87941" data-color="#C87941" aria-label="Copper" role="radio" aria-checked="false"></button>
+                <button type="button" class="color-swatch" style="--swatch:#798B7F" data-color="#798B7F" aria-label="Sage" role="radio" aria-checked="false"></button>
+                <button type="button" class="color-swatch" style="--swatch:#F2EFE9" data-color="#F2EFE9" aria-label="Warm White" role="radio" aria-checked="false"></button>
+              </div>
+            </section>
+
+            <section class="control-card">
+              <header><h4>Ring Finish</h4><small>04 / Hardware tone</small></header>
+              <div class="finish-swatches" id="finish-options">
+                <button type="button" class="finish-chip active" data-finish="chrome">Chrome</button>
+                <button type="button" class="finish-chip" data-finish="brass">Brass</button>
+                <button type="button" class="finish-chip" data-finish="black">Matte Black</button>
+              </div>
+            </section>
+          </div>
+
+          <div class="config-stage">
+            <div class="stage-caption"><span class="dot"></span><div>Live Preview</div></div>
+            <div class="curtain-preview" id="curtain-preview">
+              <div class="curtain-rod"></div>
+              <div class="curtain-rings-row" id="curtain-rings">
+                <div class="c-ring chrome"></div><div class="c-ring chrome"></div><div class="c-ring chrome"></div><div class="c-ring chrome"></div><div class="c-ring chrome"></div><div class="c-ring chrome"></div><div class="c-ring chrome"></div><div class="c-ring chrome"></div>
+              </div>
+              <div class="fabric-wrap fabric-shape">
+                <div class="curtain-fabric fabric-solid" id="curtain-fabric"></div>
+                <div class="curtain-folds"></div>
+                <div class="fabric-sheen" id="fabric-sheen"></div>
+                <div class="curtain-hem"></div>
+              </div>
+            </div>
+            <div class="stage-callout">
+              <div class="eyebrow">Live Preview</div>
+              <p>Visualize your curtain in real time — every color, pattern, and finish updates instantly.</p>
+            </div>
+            <div class="stage-index">01</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-sunken">
+    <div class="section-inner testimonials-wrap">
+      <div class="section-head reveal">
+        <div>
+          <div class="section-label">Client Voices</div>
+          <h2 class="section-title">Trusted by Industry Leaders</h2>
+        </div>
+        <p class="section-sub">From manufacturers to retailers, our clients see measurable results within the first quarter.</p>
+      </div>
+      <div class="testimonial-track reveal" id="testimonial-track">
+        <article class="testimonial-card">
+          <div>
+            <div class="stars">★★★★★</div>
+            <blockquote>"ShowerMaster's benchmarking data transformed how we approach retail partnerships. Our sell-through improved 34% in one quarter."</blockquote>
+          </div>
+          <div class="author"><div class="avatar mr">MR</div><div class="author-info"><div class="name">Margaret Rinaldi</div><div class="role">VP Sales, AquaLux Textiles</div></div></div>
+        </article>
+        <article class="testimonial-card">
+          <div>
+            <div class="stars">★★★★★</div>
+            <blockquote>"CurtainCon is the only event I attend every quarter. The insights are unmatched. The connections are real. The minibar is adequate."</blockquote>
+          </div>
+          <div class="author"><div class="avatar dh">DH</div><div class="author-info"><div class="name">David Hooksworth</div><div class="role">CEO, National Curtain Brands</div></div></div>
+        </article>
+        <article class="testimonial-card">
+          <div>
+            <div class="stars">★★★★★</div>
+            <blockquote>"They helped us pivot from basic vinyl to premium textile in 18 months. Revenue doubled. My board thinks I'm a genius."</blockquote>
+          </div>
+          <div class="author"><div class="avatar ps">PS</div><div class="author-info"><div class="name">Patricia Steamwell</div><div class="role">Founder, Drape & Co.</div></div></div>
+        </article>
+      </div>
+      <div class="testimonial-nav" id="testimonial-nav">
+        <button class="t-dot active" aria-label="Go to testimonial 1"></button>
+        <button class="t-dot" aria-label="Go to testimonial 2"></button>
+        <button class="t-dot" aria-label="Go to testimonial 3"></button>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <div>
+          <div class="section-label">Industry Partners</div>
+          <h2 class="section-title">Trusted Across the Supply Chain</h2>
+        </div>
+        <p class="section-sub">The partner logos are larger, calmer, and more present — less timid marquee, more real-world ecosystem.</p>
+      </div>
+      <div class="partners-rail reveal">
+        <article class="partner-card"><div class="m-icon"><svg viewBox="0 0 24 24"><path d="M12 3l6 2.3v5.4c0 4.2-2.5 7.9-6 9.8-3.5-1.9-6-5.6-6-9.8V5.3L12 3Z"/><text x="12" y="13" text-anchor="middle">AG</text></svg></div><div><strong>AquaGuard</strong><span>Waterproof systems partner</span></div></article>
+        <article class="partner-card"><div class="m-icon" style="color:var(--accent)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><text x="12" y="13" text-anchor="middle">RM</text></svg></div><div><strong>RingMaster Pro</strong><span>Hardware and fixture programs</span></div></article>
+        <article class="partner-card"><div class="m-icon"><svg viewBox="0 0 24 24"><path d="M12 3.5c3.2 4 5.5 7 5.5 10.1A5.5 5.5 0 0 1 12 19a5.5 5.5 0 0 1-5.5-5.4C6.5 10.5 8.8 7.5 12 3.5Z"/><text x="12" y="14" text-anchor="middle">ST</text></svg></div><div><strong>SplashTech</strong><span>Material innovation platform</span></div></article>
+        <article class="partner-card"><div class="m-icon"><svg viewBox="0 0 24 24"><path d="M18.5 5.5c-6 0-10 3.9-10 9.2 0 3 2 4.8 4.6 4.8 5.1 0 6.9-5.4 5.4-14Z"/><path d="M10 15c2.2-2.1 4.9-3.4 8-4"/><text x="11.7" y="13.6" text-anchor="middle">EV</text></svg></div><div><strong>EcoVeil</strong><span>Sustainable sourcing alliance</span></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-inner">
+      <div class="newsletter reveal">
+        <div class="newsletter-grid">
+          <div>
+            <h2>Stay in the Flow</h2>
+            <p>Get quarterly insights, trend reports, and exclusive event invites.</p>
+          </div>
+          <form class="newsletter-form" onsubmit="event.preventDefault();this.querySelector('button').textContent='Subscribed ✓';this.querySelector('button').style.background='#C87941';this.querySelector('button').style.color='#fff'">
+            <input type="email" placeholder="your@email.com" required>
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h4 style="font-family:var(--font-display);font-size:1.35rem;letter-spacing:-.02em;text-transform:none;color:var(--text-primary)">Shower<em style="font-style:normal;color:var(--accent)">Master</em></h4>
+        <p>The shower curtain industry's premier management consulting firm. Strategy set in motion since 2009.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <a href="sales-lab.html">ShowerLAB™</a><br>
+        <a href="sales-accelerator.html">Curtain Accelerator™</a><br>
+        <a href="emergence.html">CurtainCon™</a><br>
+        <a href="collaborative-innovation.html">Innovation Forums</a>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="about.html">Our Team</a><br>
+        <a href="awards.html">Awards & News</a><br>
+        <a href="contact.html">Contact Us</a>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <p>📧 hello@showermaster.com</p>
+        <p>📞 (312) 555-DRIP</p>
+        <p>📍 Chicago, IL</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 ShowerMaster Consulting. All rights reserved.</p>
+      <p>Where Strategy Meets the Splash Zone.™</p>
+    </div>
+  </div>
+</footer>
+
+<button class="chat-fab" aria-label="Chat">💬</button>
+<div class="chat-panel">
+  <div class="chat-header"><span>🚿 Curtain Consultant</span><button class="chat-close">✕</button></div>
+  <div class="chat-body"></div>
+  <div class="chat-footer">
+    <input class="chat-input" placeholder="Ask about curtains...">
+    <button class="chat-send">Send</button>
+  </div>
+</div>
+
+<div id="help-overlay">
+  <div class="help-box">
+    <h3>⌨️ Keyboard Shortcuts</h3>
+    <table>
+      <tr><td><kbd>D</kbd></td><td>Toggle dark mode</td></tr>
+      <tr><td><kbd>T</kbd></td><td>Scroll to top</td></tr>
+      <tr><td><kbd>?</kbd></td><td>Toggle this help</td></tr>
+      <tr><td><kbd>↑↑↓↓←→←→BA</kbd></td><td>🦆 Easter egg</td></tr>
+    </table>
+    <p style="margin-top:16px;font-size:.82rem;color:var(--text-secondary)">Press <kbd>?</kbd> or click outside to close</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  const prog = document.getElementById('scroll-progress');
+  window.addEventListener('scroll',()=>{
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    prog.style.width = h > 0 ? (window.scrollY / h * 100) + '%' : '0%';
+  },{passive:true});
+
+  const nav = document.querySelector('.nav');
+  const hero = document.querySelector('.hero');
+  const navLinks = document.querySelector('.nav-links');
+  const hamburger = document.querySelector('.nav-hamburger');
+
+  function updateNavState(){
+    const heroBottom = hero.getBoundingClientRect().bottom;
+    nav.classList.toggle('theme-dark', heroBottom > 76 && document.documentElement.dataset.theme === 'dark');
+    nav.classList.toggle('scrolled', window.scrollY > 24);
+  }
+  window.addEventListener('scroll',updateNavState,{passive:true});
+  window.addEventListener('resize',updateNavState);
+  hamburger.addEventListener('click',()=>{
+    const open = navLinks.classList.toggle('open');
+    hamburger.textContent = open ? '✕' : '☰';
+  });
+  navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{navLinks.classList.remove('open');hamburger.textContent='☰';}));
+
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  },{threshold:.14, rootMargin:'0px 0px -40px 0px'});
+  reveals.forEach(el=>{ if(!el.classList.contains('visible')) io.observe(el); });
+
+  const statNums = [...document.querySelectorAll('.stat-item .num')];
+  function parseStatValue(text){
+    const raw = text.trim();
+    const numeric = parseFloat(raw.replace(/[^0-9.]/g,'')) || 0;
+    return {
+      raw,
+      prefix: raw.startsWith('$') ? '$' : '',
+      suffix: `${raw.includes('B') ? 'B' : ''}${raw.includes('%') ? '%' : ''}${raw.includes('+') ? '+' : ''}`,
+      decimals: raw.includes('.') ? (raw.split('.')[1].match(/[0-9]+/)||[''])[0].length : 0,
+      value: numeric
+    };
+  }
+  function formatStat(meta, value){
+    const formatted = meta.decimals ? value.toFixed(meta.decimals) : Math.round(value).toString();
+    return `${meta.prefix}${formatted}${meta.suffix}`;
+  }
+  const statsObserver = new IntersectionObserver((entries,observer)=>{
+    entries.forEach(entry=>{
+      if(!entry.isIntersecting) return;
+      statNums.forEach((el,index)=>{
+        const meta = parseStatValue(el.dataset.target || el.textContent);
+        el.dataset.target = meta.raw;
+        const start = performance.now() + index * 70;
+        function tick(now){
+          const progress = Math.min((now - start) / 1200, 1);
+          const eased = 1 - Math.pow(1 - Math.max(progress,0), 3);
+          el.textContent = formatStat(meta, meta.value * eased);
+          if(progress < 1) requestAnimationFrame(tick); else el.textContent = meta.raw;
+        }
+        requestAnimationFrame(tick);
+      });
+      observer.unobserve(entry.target);
+    });
+  },{threshold:.45});
+  const statsBand = document.querySelector('.stats-band');
+  if(statsBand) statsObserver.observe(statsBand);
+
+  const curtainPreview = document.getElementById('curtain-preview');
+  const fabric = document.getElementById('curtain-fabric');
+  const fabricSheen = document.getElementById('fabric-sheen');
+  const ringEls = [...document.querySelectorAll('.c-ring')];
+  const patternBtns = [...document.querySelectorAll('[data-pattern]')];
+  const materialBtns = [...document.querySelectorAll('[data-material]')];
+  const colorBtns = [...document.querySelectorAll('.color-swatch')];
+  const finishBtns = [...document.querySelectorAll('[data-finish]')];
+  const materialNote = document.getElementById('material-note');
+
+  const state = {
+    pattern:'solid',
+    material:'polyester',
+    color:'#DDE6EA',
+    finish:'chrome'
+  };
+
+  const materialProfiles = {
+    polyester:{note:'Polyester Blend keeps the folds crisp and the finish balanced for mass-market premium programs.', sheen:.46, contrast:1, sat:1},
+    cotton:{note:'Egyptian Cotton softens the sheen and adds hotel-grade warmth to the drape.', sheen:.3, contrast:.96, sat:.94},
+    vinyl:{note:'Premium Vinyl sharpens reflection and reads cleaner in high-turn, easy-care assortments.', sheen:.6, contrast:1.05, sat:1.02},
+    linen:{note:'Belgian Linen introduces a matte, architectural finish with quieter luxury cues.', sheen:.18, contrast:.94, sat:.9}
+  };
+
+  function hexToRgb(hex){
+    const clean = hex.replace('#','');
+    const full = clean.length === 3 ? clean.split('').map(x=>x+x).join('') : clean;
+    const num = parseInt(full,16);
+    return {r:(num>>16)&255,g:(num>>8)&255,b:num&255};
+  }
+  function clamp(v,min,max){ return Math.min(max,Math.max(min,v)); }
+  function shade(hex,amt){
+    const {r,g,b} = hexToRgb(hex);
+    const mix = amt >= 0 ? 255 : 0;
+    const p = Math.abs(amt);
+    const nr = Math.round(r + (mix - r) * p);
+    const ng = Math.round(g + (mix - g) * p);
+    const nb = Math.round(b + (mix - b) * p);
+    return `rgb(${nr}, ${ng}, ${nb})`;
+  }
+
+  function updateConfigurator(animate=true){
+    const profile = materialProfiles[state.material];
+    fabric.className = `curtain-fabric fabric-${state.pattern}`;
+    fabric.style.setProperty('--fabric-base', state.color);
+    fabric.style.setProperty('--fabric-light', shade(state.color, .28));
+    fabric.style.setProperty('--fabric-dark', shade(state.color, -.18));
+    fabric.style.filter = `saturate(${profile.sat}) contrast(${profile.contrast})`;
+    fabric.style.transform = animate ? 'translateY(-4px) scale(1.01)' : 'none';
+    fabricSheen.style.opacity = profile.sheen;
+    materialNote.textContent = profile.note;
+    ringEls.forEach(r=>{r.className = `c-ring ${state.finish}`;});
+    curtainPreview.style.boxShadow = `0 34px 70px rgba(15,31,42,.12), 0 0 0 1px rgba(255,255,255,.35), 0 30px 60px ${shade(state.color,-.08).replace('rgb','rgba').replace(')',',.10)')}`;
+
+    patternBtns.forEach(btn=>btn.classList.toggle('active', btn.dataset.pattern === state.pattern));
+    materialBtns.forEach(btn=>btn.classList.toggle('active', btn.dataset.material === state.material));
+    finishBtns.forEach(btn=>btn.classList.toggle('active', btn.dataset.finish === state.finish));
+    colorBtns.forEach(btn=>{
+      const active = btn.dataset.color.toLowerCase() === state.color.toLowerCase();
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-checked', String(active));
+    });
+
+    if(animate){
+      curtainPreview.classList.remove('surge');
+      void curtainPreview.offsetWidth;
+      curtainPreview.classList.add('surge');
+      setTimeout(()=>{
+        fabric.style.transform = 'translateY(0) scale(1)';
+      },160);
+    }
+  }
+
+  patternBtns.forEach(btn=>btn.addEventListener('click',()=>{state.pattern = btn.dataset.pattern; updateConfigurator();}));
+  materialBtns.forEach(btn=>btn.addEventListener('click',()=>{state.material = btn.dataset.material; updateConfigurator();}));
+  colorBtns.forEach(btn=>btn.addEventListener('click',()=>{state.color = btn.dataset.color; updateConfigurator();}));
+  finishBtns.forEach(btn=>btn.addEventListener('click',()=>{state.finish = btn.dataset.finish; updateConfigurator();}));
+  updateConfigurator(false);
+
+  const track = document.getElementById('testimonial-track');
+  const dots = [...document.querySelectorAll('.t-dot')];
+  function syncDots(){
+    const width = track.clientWidth;
+    const index = Math.round(track.scrollLeft / width);
+    dots.forEach((dot,i)=>dot.classList.toggle('active', i === clamp(index,0,dots.length-1)));
+  }
+  dots.forEach((dot,i)=>dot.addEventListener('click',()=>{
+    const card = track.children[i];
+    if(card) card.scrollIntoView({behavior:'smooth', inline:'start', block:'nearest'});
+  }));
+  track.addEventListener('scroll',()=>window.requestAnimationFrame(syncDots),{passive:true});
+  syncDots();
+
+  const chatFab = document.querySelector('.chat-fab');
+  const chatPanel = document.querySelector('.chat-panel');
+  const chatClose = document.querySelector('.chat-close');
+  const chatBody = document.querySelector('.chat-body');
+  const chatInput = document.querySelector('.chat-input');
+  const chatSend = document.querySelector('.chat-send');
+  const botResponses = [
+    "Our Egyptian Cotton Premium line has a 40% higher reorder rate. Want the whitepaper?",
+    "Based on current trends, geometric patterns are up 23% YoY. Bold choice!",
+    "The $8.2B shower curtain market is growing at 4.1% CAGR. Want our latest report?",
+    "Pro tip: matte black rings are the #1 requested upgrade in luxury bathroom remodels.",
+    "Fun fact: the average American replaces their shower curtain every 6 months. That's $4.2B in recurring revenue.",
+    "Our ShowerLAB™ data shows waterproof coatings add 31% to perceived value. Let's discuss.",
+    "Have you tried our Curtain Configurator? It's right on this page. 👆",
+    "I'd love to connect you with our curtain strategy team. Shall I schedule a call?"
+  ];
+  function addMsg(text,who){
+    const d = document.createElement('div');
+    d.className = 'chat-msg ' + who;
+    d.textContent = text;
+    chatBody.appendChild(d);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+  chatFab.addEventListener('click',()=>{
+    chatPanel.classList.toggle('open');
+    if(chatPanel.classList.contains('open') && !chatBody.children.length){
+      setTimeout(()=>addMsg("Welcome to ShowerMaster! 🚿 How can we help you dominate the curtain market today?","bot"),260);
+    }
+  });
+  chatClose.addEventListener('click',()=>chatPanel.classList.remove('open'));
+  function sendChat(){
+    const msg = chatInput.value.trim();
+    if(!msg) return;
+    addMsg(msg,'user');
+    chatInput.value = '';
+    setTimeout(()=>addMsg(botResponses[Math.floor(Math.random()*botResponses.length)],'bot'),700);
+  }
+  chatSend.addEventListener('click',sendChat);
+  chatInput.addEventListener('keydown',e=>{if(e.key==='Enter') sendChat();});
+
+  const helpOverlay = document.getElementById('help-overlay');
+  document.addEventListener('keydown',e=>{
+    if(['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) return;
+    if(e.key==='?') helpOverlay.classList.toggle('visible');
+    if(e.key==='d' || e.key==='D'){
+      document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      updateNavState();
+    }
+    if(e.key==='t' || e.key==='T') window.scrollTo({top:0,behavior:'smooth'});
+    if(e.key==='Escape'){
+      helpOverlay.classList.remove('visible');
+      chatPanel.classList.remove('open');
+      navLinks.classList.remove('open');
+      hamburger.textContent='☰';
+    }
+  });
+  helpOverlay.addEventListener('click',e=>{ if(e.target === helpOverlay) helpOverlay.classList.remove('visible'); });
+
+  const konami = [38,38,40,40,37,39,37,39,66,65];
+  let ki = 0;
+  document.addEventListener('keydown',e=>{
+    if(e.keyCode === konami[ki]){
+      ki++;
+      if(ki === konami.length){
+        ki = 0;
+        for(let i=0;i<28;i++){
+          const d = document.createElement('div');
+          d.textContent='🦆';
+          d.style.cssText=`position:fixed;top:-40px;left:${Math.random()*100}vw;font-size:${18+Math.random()*26}px;z-index:10002;pointer-events:none;animation:duckFall ${2+Math.random()*2.4}s linear forwards;animation-delay:${Math.random()*1.2}s`;
+          document.body.appendChild(d);
+          setTimeout(()=>d.remove(),5000);
+        }
+      }
+    } else {
+      ki = 0;
+    }
+  });
+
+  updateNavState();
+})();
+</script>
+</body>
+</html>
